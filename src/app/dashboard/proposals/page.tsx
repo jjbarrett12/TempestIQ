@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-
-const DEMO_CUSTOMER_ID = 'demo-customer-1'
+import { useDashboardCustomer } from '@/lib/dashboard-customer-context'
+import { ProposalsListSkeleton } from '@/components/ui/Skeleton'
 
 const STATUS_LABELS: Record<string, string> = {
   DRAFT: 'Draft',
@@ -29,18 +29,19 @@ interface Proposal {
 }
 
 export default function ProposalsPage() {
+  const customerId = useDashboardCustomer()
   const [proposals, setProposals] = useState<Proposal[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(`/api/proposals?customerId=${DEMO_CUSTOMER_ID}`)
+    fetch(`/api/proposals?customerId=${customerId}`)
       .then((res) => res.json())
       .then((data) => {
         setProposals(data.proposals || [])
         setLoading(false)
       })
       .catch(() => setLoading(false))
-  }, [])
+  }, [customerId])
 
   return (
     <>
@@ -56,11 +57,17 @@ export default function ProposalsPage() {
 
       <div className="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-gray-500">Loading proposals...</div>
+          <ProposalsListSkeleton />
         ) : proposals.length === 0 ? (
-          <div className="p-12 text-center text-gray-500">
-            <p className="mb-4">No proposals yet.</p>
-            <Link href="/dashboard/proposals/new" className="text-indigo-600 hover:underline font-medium">
+          <div className="p-12 text-center">
+            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-indigo-50 flex items-center justify-center">
+              <svg className="w-6 h-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 font-medium">No proposals yet</p>
+            <p className="text-sm text-gray-500 mt-1 mb-6">Create a proposal from a lead to send scope and pricing.</p>
+            <Link href="/dashboard/proposals/new" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium">
               Create your first proposal
             </Link>
           </div>

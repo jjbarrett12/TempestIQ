@@ -3,11 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-
-const DEMO_CUSTOMER_ID = 'demo-customer-1'
+import { useDashboardCustomer } from '@/lib/dashboard-customer-context'
 
 export default function NewCadencePage() {
   const router = useRouter()
+  const customerId = useDashboardCustomer()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -17,7 +17,7 @@ export default function NewCadencePage() {
     setLoading(true)
     const form = e.currentTarget
     const data = {
-      customerId: DEMO_CUSTOMER_ID,
+      customerId,
       name: (form.querySelector('[name="name"]') as HTMLInputElement).value,
       description: (form.querySelector('[name="description"]') as HTMLInputElement).value || undefined,
     }

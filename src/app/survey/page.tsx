@@ -5,12 +5,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { PLANS, PLAN_IDS, type PlanId } from '@/lib/plans'
 
+type ExtrasChoice = 'none' | 'api' | 'support' | 'both'
+
 type SurveyAnswers = {
   businessType: 'roofing' | 'insurance' | 'restoration' | 'other'
   serviceAreas: '1-5' | '6-25' | '26-100' | '100+'
   monthlyAlerts: 'under-500' | '500-2500' | '2500-10000' | '10000+'
-  needApi: boolean
-  needPrioritySupport: boolean
+  extrasChoice: ExtrasChoice
   teamSize: 'solo' | 'small' | 'medium' | 'large'
   priority: 'cost' | 'features' | 'support' | 'scale'
 }
@@ -19,14 +20,15 @@ const INITIAL_ANSWERS: SurveyAnswers = {
   businessType: 'roofing',
   serviceAreas: '1-5',
   monthlyAlerts: 'under-500',
-  needApi: false,
-  needPrioritySupport: false,
+  extrasChoice: 'none',
   teamSize: 'solo',
   priority: 'features',
 }
 
 function recommendPlan(answers: SurveyAnswers): PlanId {
-  const { serviceAreas, monthlyAlerts, needApi, needPrioritySupport, teamSize, priority } = answers
+  const { serviceAreas, monthlyAlerts, extrasChoice, teamSize, priority } = answers
+  const needApi = extrasChoice === 'api' || extrasChoice === 'both'
+  const needPrioritySupport = extrasChoice === 'support' || extrasChoice === 'both'
 
   // Hard requirements → Enterprise
   if (serviceAreas === '100+' || monthlyAlerts === '10000+' || teamSize === 'large') return PLAN_IDS.ENTERPRISE
@@ -58,7 +60,9 @@ function recommendPlan(answers: SurveyAnswers): PlanId {
 }
 
 function getRecommendationReason(answers: SurveyAnswers, planId: PlanId): string {
-  const { serviceAreas, monthlyAlerts, needApi, needPrioritySupport, teamSize } = answers
+  const { serviceAreas, monthlyAlerts, extrasChoice, teamSize } = answers
+  const needApi = extrasChoice === 'api' || extrasChoice === 'both'
+  const needPrioritySupport = extrasChoice === 'support' || extrasChoice === 'both'
   switch (planId) {
     case PLAN_IDS.ENTERPRISE:
       if (serviceAreas === '100+') return 'You need 100+ service areas—Enterprise gives you unlimited coverage.'
@@ -136,10 +140,12 @@ const STEPS = [
   },
   {
     id: 'extras',
-    title: 'Do you need any of these?',
+    title: 'Do you need API, CRM, or priority support?',
     options: [
-      { value: 'needApi', label: 'API & CRM integrations', type: 'checkbox' },
-      { value: 'needPrioritySupport', label: 'Priority or dedicated support', type: 'checkbox' },
+      { value: 'none', label: 'No — none of these right now' },
+      { value: 'api', label: 'API & CRM integrations' },
+      { value: 'support', label: 'Priority or dedicated support' },
+      { value: 'both', label: 'Both API/CRM and priority support' },
     ],
   },
 ]
@@ -151,7 +157,6 @@ export default function SurveyPage() {
 
   const currentStep = STEPS[step]
   const isLastStep = step === STEPS.length - 1
-  const isExtras = currentStep?.id === 'extras'
 
   const updateAnswer = (key: keyof SurveyAnswers, value: string | boolean) => {
     setAnswers((prev) => ({ ...prev, [key]: value }))
@@ -246,26 +251,8 @@ export default function SurveyPage() {
 
         <h2 className="text-xl font-bold text-gray-900 mb-6">{currentStep.title}</h2>
 
-        {isExtras ? (
-          <div className="space-y-4">
-            {(currentStep.options as { value: string; label: string; type: string }[]).map((opt) => (
-              <label
-                key={opt.value}
-                className="flex items-center gap-3 p-4 rounded-xl border-2 border-gray-200 hover:border-indigo-200 cursor-pointer transition"
-              >
-                <input
-                  type="checkbox"
-                  checked={answers[opt.value as keyof SurveyAnswers] as boolean}
-                  onChange={(e) => updateAnswer(opt.value as keyof SurveyAnswers, e.target.checked)}
-                  className="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                />
-                <span className="font-medium text-gray-900">{opt.label}</span>
-              </label>
-            ))}
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {currentStep.options.map((opt: { value: string; label: string }) => (
+        <div className="space-y-3">
+          {currentStep.options.map((opt: { value: string; label: string }) => (
               <button
                 key={opt.value}
                 type="button"
@@ -282,8 +269,7 @@ export default function SurveyPage() {
                 {opt.label}
               </button>
             ))}
-          </div>
-        )}
+        </div>
 
         <div className="flex justify-between mt-8">
           <button
@@ -294,7 +280,7 @@ export default function SurveyPage() {
           >
             Back
           </button>
-          {isExtras ? (
+          {isLastStep ? (
             <button
               type="button"
               onClick={handleNext}

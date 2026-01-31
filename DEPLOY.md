@@ -4,7 +4,30 @@
 
 ---
 
-## 1. Vercel Build Settings
+## Get it live (minimal)
+
+Do these in order, then test and iterate.
+
+1. **Create a Postgres DB** – [Neon](https://neon.tech), [Supabase](https://supabase.com), or Vercel Postgres. Copy the connection string (e.g. `postgresql://...`).
+2. **Create a Vercel project** – [vercel.com](https://vercel.com) → New Project → Import your GitHub repo (this folder). Don’t deploy yet.
+3. **Set environment variables** – In the project → **Settings** → **Environment Variables**, add for **Production**:
+   - `DATABASE_URL` = your Postgres connection string  
+   - `NEXTAUTH_URL` = `https://your-domain.com` (or the Vercel URL for now, e.g. `https://your-app.vercel.app`)  
+   - `NEXTAUTH_SECRET` = run `openssl rand -base64 32` (or use any long random string)  
+   - `NEXT_PUBLIC_APP_URL` = same as `NEXTAUTH_URL`
+4. **Set Framework to Next.js** – **Settings** → **Framework Preset** (or Framework Settings) → choose **Next.js**. Save.
+5. **Deploy** – Push to `main` (or trigger a deploy from Vercel). Wait for the build to succeed.
+6. **Run migrations** – In your project folder, set `.env` so `DATABASE_URL` is your **production** DB URL, then run:
+   ```powershell
+   npm run db:migrate:deploy
+   ```
+7. **Add your domain** (when ready) – **Settings** → **Domains** → Add your domain, then add the DNS records Vercel shows at your registrar. Wait 5–60 min for DNS.
+
+After step 6, the site is live at your Vercel URL (or your domain once DNS is set). Test, then make changes as needed.
+
+---
+
+## 1. Vercel Build Settings (reference)
 
 In **Vercel Dashboard** → Your Project → **Settings** → **Build & Development** (and **General**):
 
@@ -120,3 +143,10 @@ Vercel auto-deploys on push to `main`.
 - [ ] Build succeeds (check Deployments)
 - [ ] Migrations run: `npm run db:migrate:deploy` (with production DATABASE_URL)
 - [ ] Site loads at `https://tempestiq.com`
+
+---
+
+## After it’s live
+
+- **Optional:** Redis (Upstash), Xweather, Twilio, SendGrid, Stripe — add env vars in Vercel when you need them. Workers run separately unless you add a worker host.
+- Test the site, then make UX or feature changes as needed.

@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-
-const DEMO_CUSTOMER_ID = 'demo-customer-1'
+import { useDashboardCustomer } from '@/lib/dashboard-customer-context'
 
 interface Lead {
   id: string
@@ -15,17 +14,18 @@ interface Lead {
 export default function NewProposalPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const customerId = useDashboardCustomer()
   const preselectedLeadId = searchParams.get('leadId')
   const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetch(`/api/leads?customerId=${DEMO_CUSTOMER_ID}`)
+    fetch(`/api/leads?customerId=${customerId}`)
       .then((res) => res.json())
       .then((data) => setLeads(data.leads || []))
       .catch(() => {})
-  }, [])
+  }, [customerId])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -33,7 +33,7 @@ export default function NewProposalPage() {
     setLoading(true)
     const form = e.currentTarget
     const data = {
-      customerId: DEMO_CUSTOMER_ID,
+      customerId,
       leadId: (form.querySelector('[name="leadId"]') as HTMLSelectElement).value || null,
       title: (form.querySelector('[name="title"]') as HTMLInputElement).value,
       body: (form.querySelector('[name="body"]') as HTMLTextAreaElement).value,

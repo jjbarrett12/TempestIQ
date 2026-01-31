@@ -47,8 +47,18 @@ export function AssetList({ customerId }: { customerId: string }) {
       </div>
       <div className="divide-y">
         {assets.length === 0 ? (
-          <div className="p-6 text-gray-500 text-center">
-            No locations added yet. <Link href="/dashboard/assets/new" className="text-blue-600 hover:underline">Add your first location</Link>
+          <div className="p-8 text-center">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-indigo-50 flex items-center justify-center">
+              <svg className="w-6 h-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 font-medium">No locations yet</p>
+            <p className="text-sm text-gray-500 mt-1">Add your first service area to start receiving storm alerts.</p>
+            <Link href="/dashboard/assets/new" className="inline-block mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium">
+              Add your first location
+            </Link>
           </div>
         ) : (
           assets.map(asset => (

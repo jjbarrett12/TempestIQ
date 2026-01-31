@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 interface Event {
   id: string
@@ -14,6 +15,11 @@ interface Event {
     name: string
     address: string
   }
+}
+
+const SAFETY_EVENT_TYPES = ['HIGH_WIND_WARNING', 'EXTREME_WIND_GUST', 'TORNADO_WARNING', 'TORNADO_WATCH', 'SEVERE_TSTORM_WARNING']
+function isSafetyEvent(eventType: string) {
+  return SAFETY_EVENT_TYPES.includes(eventType)
 }
 
 export function ActiveEvents({ customerId }: { customerId: string }) {
@@ -80,19 +86,35 @@ export function ActiveEvents({ customerId }: { customerId: string }) {
       </div>
       <div className="divide-y">
         {events.length === 0 ? (
-          <div className="p-6 text-gray-500 text-center">
-            No active threats at this time
+          <div className="p-8 text-center">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-slate-100 flex items-center justify-center">
+              <svg className="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 font-medium">No active threats</p>
+            <p className="text-sm text-gray-500 mt-1">When storms hit your locations, they’ll appear here.</p>
+            <Link href="/dashboard/assets" className="inline-block mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-800">
+              Manage locations →
+            </Link>
           </div>
         ) : (
           events.map(event => (
             <div key={event.id} className="p-6">
-              <div className="flex justify-between items-start mb-2">
+              <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
                 <span className={`px-3 py-1 rounded border text-sm font-semibold ${getSeverityColor(event.severity)}`}>
                   {getEventTypeName(event.eventType)}
                 </span>
-                <span className="text-sm text-gray-500">
-                  {new Date(event.startTime).toLocaleTimeString()}
-                </span>
+                <div className="flex items-center gap-2">
+                  {isSafetyEvent(event.eventType) && (
+                    <span className="px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800 border border-amber-300">
+                      Safety
+                    </span>
+                  )}
+                  <span className="text-sm text-gray-500">
+                    {new Date(event.startTime).toLocaleTimeString()}
+                  </span>
+                </div>
               </div>
               {event.asset && (
                 <p className="text-gray-700 text-sm mt-2">
@@ -104,6 +126,12 @@ export function ActiveEvents({ customerId }: { customerId: string }) {
                   Expires: {new Date(event.endTime).toLocaleString()}
                 </p>
               )}
+              <Link
+                href={`/dashboard/events/${event.id}`}
+                className="inline-block mt-3 text-sm font-medium text-indigo-600 hover:text-indigo-800"
+              >
+                View storm verification →
+              </Link>
             </div>
           ))
         )}

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-
-const DEMO_CUSTOMER_ID = 'demo-customer-1'
+import { useDashboardCustomer } from '@/lib/dashboard-customer-context'
+import { LeadsTableSkeleton } from '@/components/ui/Skeleton'
 
 const STATUS_LABELS: Record<string, string> = {
   NEW: 'New',
@@ -39,14 +39,15 @@ interface Lead {
 }
 
 export default function LeadsPage() {
+  const customerId = useDashboardCustomer()
   const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState<string>('')
 
   useEffect(() => {
     const url = statusFilter
-      ? `/api/leads?customerId=${DEMO_CUSTOMER_ID}&status=${statusFilter}`
-      : `/api/leads?customerId=${DEMO_CUSTOMER_ID}`
+      ? `/api/leads?customerId=${customerId}&status=${statusFilter}`
+      : `/api/leads?customerId=${customerId}`
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -54,7 +55,7 @@ export default function LeadsPage() {
         setLoading(false)
       })
       .catch(() => setLoading(false))
-  }, [statusFilter])
+  }, [customerId, statusFilter])
 
   return (
     <>
@@ -82,11 +83,17 @@ export default function LeadsPage() {
 
       <div className="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-gray-500">Loading leads...</div>
+          <LeadsTableSkeleton />
         ) : leads.length === 0 ? (
-          <div className="p-12 text-center text-gray-500">
-            <p className="mb-4">No leads yet.</p>
-            <Link href="/dashboard/leads/new" className="text-indigo-600 hover:underline font-medium">
+          <div className="p-12 text-center">
+            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-indigo-50 flex items-center justify-center">
+              <svg className="w-6 h-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 font-medium">No leads yet</p>
+            <p className="text-sm text-gray-500 mt-1 mb-6">Add contacts to track and follow up with storm-affected prospects.</p>
+            <Link href="/dashboard/leads/new" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium">
               Add your first lead
             </Link>
           </div>

@@ -2,10 +2,10 @@
 
 import Link from 'next/link'
 import { AssetList } from '@/components/dashboard/AssetList'
-
-const DEMO_CUSTOMER_ID = 'demo-customer-1'
+import { useDashboardCustomer } from '@/lib/dashboard-customer-context'
 
 export default function AssetsPage() {
+  const customerId = useDashboardCustomer()
   return (
     <>
       <div className="flex justify-between items-center mb-8">
@@ -17,7 +17,7 @@ export default function AssetsPage() {
           Add location
         </Link>
       </div>
-      <AssetList customerId={DEMO_CUSTOMER_ID} />
+      <AssetList customerId={customerId} />
     </>
   )
 }

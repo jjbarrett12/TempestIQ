@@ -3,8 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-
-const DEMO_CUSTOMER_ID = 'demo-customer-1'
+import { useDashboardCustomer } from '@/lib/dashboard-customer-context'
 
 const STATUS_OPTIONS = [
   { value: 'NEW', label: 'New' },
@@ -18,6 +17,7 @@ const STATUS_OPTIONS = [
 
 export default function NewLeadPage() {
   const router = useRouter()
+  const customerId = useDashboardCustomer()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -27,7 +27,7 @@ export default function NewLeadPage() {
     setLoading(true)
     const form = e.currentTarget
     const data = {
-      customerId: DEMO_CUSTOMER_ID,
+      customerId,
       name: (form.querySelector('[name="name"]') as HTMLInputElement).value,
       company: (form.querySelector('[name="company"]') as HTMLInputElement).value || undefined,
       email: (form.querySelector('[name="email"]') as HTMLInputElement).value || undefined,

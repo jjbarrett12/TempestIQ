@@ -1,56 +1,12 @@
 import Link from 'next/link'
-import Image from 'next/image'
-import dynamic from 'next/dynamic'
 import { HeroAlerts } from '@/components/marketing/HeroAlerts'
-
-const HailEffect = dynamic(
-  () => import('@/components/HailEffect').then((m) => ({ default: m.HailEffect })),
-  { ssr: false }
-)
-const LightningEffect = dynamic(
-  () => import('@/components/LightningEffect').then((m) => ({ default: m.LightningEffect })),
-  { ssr: false }
-)
+import { MarketingHeader } from '@/components/marketing/MarketingHeader'
+import { MarketingHeroEffects } from '@/components/marketing/MarketingHeroEffects'
 
 export default function MarketingPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Modern Tech Header */}
-      <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-b-2 border-indigo-100 z-50 shadow-sm">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center max-w-7xl">
-          <Link href="/marketing" className="flex items-center gap-3">
-            <Image
-              src="/TempestIQ logo transparent.png"
-              alt="TempestIQ"
-              width={1600}
-              height={400}
-              className="h-[360px] w-auto object-contain"
-              priority
-            />
-          </Link>
-          <nav className="hidden md:flex gap-8 items-center">
-            <a href="#solutions" className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors">Industries Served</a>
-            <a href="#why-ai" className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors">Why AI</a>
-            <a href="#features" className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors">Features</a>
-            <a href="#pricing" className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors">Pricing</a>
-            <a href="#contact" className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors">Contact</a>
-          </nav>
-          <div className="flex gap-3 items-center">
-            <Link
-              href="/dashboard"
-              className="px-4 py-2 text-sm text-gray-700 hover:text-indigo-600 font-medium transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="#pricing"
-              className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all text-sm font-semibold shadow-md shadow-indigo-500/30"
-            >
-              Get Started
-            </Link>
-          </div>
-        </div>
-      </header>
+      <MarketingHeader />
 
       {/* Hero Section - indigo / purple / slate */}
       <section className="relative pt-32 pb-20 px-6 overflow-hidden bg-slate-800">
@@ -58,23 +14,22 @@ export default function MarketingPage() {
         <div className="absolute top-0 right-0 w-[32rem] h-[32rem] bg-gradient-to-br from-indigo-600/40 to-purple-600/40 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-[28rem] h-[28rem] bg-gradient-to-tr from-violet-600/30 to-indigo-600/40 rounded-full blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl" />
-        <HailEffect />
-        <LightningEffect />
+        <MarketingHeroEffects />
         <HeroAlerts />
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 rounded-full text-xs font-semibold text-slate-200 mb-8 shadow-sm">
               <span className="w-2 h-2 bg-sky-400 rounded-full animate-pulse" />
-              AI-Powered Weather Intelligence Platform
+              Weather → Money. For Roofers, Restoration, Solar, Fence &amp; Gutter.
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1] tracking-tight drop-shadow-sm">
-              Own the Weather Advantage
+              We Tell You Who to Call,
               <span className="block mt-2 bg-gradient-to-r from-sky-300 via-indigo-200 to-purple-200 bg-clip-text text-transparent">
-                With AI
+                When—and Why They&apos;ll Say Yes
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
-              Convert weather signals into leads, pipeline, and predictable growth
+              Win more jobs. Prove damage. Move faster than competitors. One roof = $10k–$25k. $200/mo is irrelevant if it creates one job.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link
@@ -194,6 +149,19 @@ export default function MarketingPage() {
               <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-rose-600 font-medium">all hazards</span></p>
             </div>
           </div>
+
+          {/* Safety & Compliance - Liability Shield */}
+          <div id="safety" className="mt-16 p-8 rounded-2xl border-2 border-amber-200 bg-amber-50/80">
+            <h3 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+              <span aria-hidden>🛑</span> Safety &amp; Compliance
+            </h3>
+            <p className="text-gray-700 mb-4">
+              Lightning proximity alerts. Wind thresholds for crane/lift shutdown. &ldquo;We halted work due to conditions&rdquo; audit trail. One injury lawsuit = $250k+. One OSHA fine = $10k+. $200/mo is laughably cheap insurance.
+            </p>
+            <p className="text-sm text-gray-600">
+              Construction, warehouses, utilities, event organizers—protect your team and your liability.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -205,10 +173,10 @@ export default function MarketingPage() {
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-6">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight drop-shadow-sm">
-              Alerts That Tell You What <span className="bg-gradient-to-r from-sky-300 via-indigo-200 to-purple-200 bg-clip-text text-transparent">Actually</span> Matters
+              You&apos;re Not Selling Alerts. <span className="bg-gradient-to-r from-sky-300 via-indigo-200 to-purple-200 bg-clip-text text-transparent">You&apos;re Selling Evidence.</span>
             </h2>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-              You get a clear priority and a clear action—not a wall of raw weather codes. AI turns data into decisions.
+              Time-stamped storm proof. Certified reports. The difference between claim approved and claim denied.
             </p>
           </div>
 
@@ -414,8 +382,11 @@ export default function MarketingPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
               Simple <span className="text-indigo-600">Pricing</span>
             </h2>
-            <p className="text-lg text-gray-600 mb-4">
+            <p className="text-lg text-gray-600 mb-2">
               Choose the plan that scales with your business
+            </p>
+            <p className="text-sm text-gray-500 mb-4 max-w-xl mx-auto">
+              One job pays for the year. We help you win more jobs, prove damage, and move faster than competitors.
             </p>
             <Link
               href="/survey"
@@ -631,11 +602,10 @@ export default function MarketingPage() {
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src="/TempestIQ logo transparent.png"
                   alt="TempestIQ"
-                  width={1200}
-                  height={300}
                   className="h-[320px] w-auto object-contain"
                 />
                 <span className="text-white font-semibold text-lg">TempestIQ</span>

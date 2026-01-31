@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { canProposalsAndCadences } from '@/lib/plans'
-
-const DEMO_CUSTOMER_ID = 'demo-customer-1'
+import { useDashboardCustomer } from '@/lib/dashboard-customer-context'
 
 const STATUS_LABELS: Record<string, string> = {
   NEW: 'New',
@@ -40,6 +39,7 @@ interface Cadence {
 export default function LeadDetailPage() {
   const params = useParams()
   const router = useRouter()
+  const customerId = useDashboardCustomer()
   const id = params.id as string
   const [lead, setLead] = useState<Lead | null>(null)
   const [cadences, setCadences] = useState<Cadence[]>([])
@@ -52,13 +52,13 @@ export default function LeadDetailPage() {
   useEffect(() => {
     Promise.all([
       fetch(`/api/leads/${id}`).then((r) => r.json()),
-      showProposalsAndCadences ? fetch(`/api/cadences?customerId=${DEMO_CUSTOMER_ID}`).then((r) => r.json()) : Promise.resolve({ cadences: [] }),
+      showProposalsAndCadences ? fetch(`/api/cadences?customerId=${customerId}`).then((r) => r.json()) : Promise.resolve({ cadences: [] }),
     ]).then(([leadRes, cadencesRes]) => {
       setLead(leadRes.lead || null)
       setCadences(cadencesRes.cadences || [])
       setLoading(false)
     })
-  }, [id, showProposalsAndCadences])
+  }, [id, customerId, showProposalsAndCadences])
 
   const addNote = async () => {
     if (!noteContent.trim()) return

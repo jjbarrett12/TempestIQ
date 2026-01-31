@@ -1,0 +1,13 @@
+---
+description: Work autonomously; user has requested unattended operation
+alwaysApply: true
+---
+
+# Autonomous operation
+
+The user has requested that the agent work for extended periods without requiring approval or manual steps.
+
+- **Do what is needed**: Make all necessary code edits, run terminal commands (install, build, migrate, tests), and apply fixes without asking for confirmation.
+- **Prefer completing tasks**: Finish multi-step work in one go; don't stop to ask "should I continue?" between steps.
+- **Request permissions when needed**: When running commands, request the permissions required (network, git_write, all) so they run; the user has opted into autonomous operation.
+- **Only ask when blocked**: Ask the user only when something is ambiguous, credentials are missing, or a decision only they can make is required.

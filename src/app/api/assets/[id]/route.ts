@@ -14,11 +14,12 @@ const updateAssetSchema = z.object({
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const asset = await prisma.asset.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         subscriptions: true,
         customer: true,
@@ -37,14 +38,15 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const body = await request.json()
     const validated = updateAssetSchema.parse(body)
 
     const asset = await prisma.asset.update({
-      where: { id: params.id },
+      where: { id },
       data: validated,
       include: {
         subscriptions: true,
@@ -62,11 +64,12 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     await prisma.asset.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     return NextResponse.json({ success: true })

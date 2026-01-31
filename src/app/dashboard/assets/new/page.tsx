@@ -2,11 +2,24 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { GeocodeSearch } from '@/components/map/GeocodeSearch'
+import type { GeocodeResult } from '@/lib/map/geocode'
+import { useDashboardCustomer } from '@/lib/dashboard-customer-context'
 
 export default function NewAssetPage() {
   const router = useRouter()
+  const customerId = useDashboardCustomer()
   const [loading, setLoading] = useState(false)
-  const [customerId] = useState('demo-customer-1') // TODO: Get from auth
+  const [address, setAddress] = useState('')
+  const [latitude, setLatitude] = useState('')
+  const [longitude, setLongitude] = useState('')
+
+  const handleGeocodeSelect = (r: GeocodeResult) => {
+    setAddress(r.displayName)
+    setLatitude(String(r.lat))
+    setLongitude(String(r.lng))
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -16,9 +29,9 @@ export default function NewAssetPage() {
     const data = {
       customerId,
       name: formData.get('name'),
-      address: formData.get('address'),
-      latitude: parseFloat(formData.get('latitude') as string),
-      longitude: parseFloat(formData.get('longitude') as string),
+      address: formData.get('address') || address,
+      latitude: parseFloat((formData.get('latitude') as string) || latitude),
+      longitude: parseFloat((formData.get('longitude') as string) || longitude),
       radiusMiles: parseFloat(formData.get('radiusMiles') as string) || 5,
       timezone: formData.get('timezone') || 'America/New_York',
     }
@@ -52,6 +65,11 @@ export default function NewAssetPage() {
       </header>
 
       <main className="container mx-auto px-4 py-8 max-w-2xl">
+        <div className="mb-6">
+          <Link href="/dashboard/assets" className="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+            ← Back to locations
+          </Link>
+        </div>
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-6 space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -68,12 +86,21 @@ export default function NewAssetPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
+              Search address (fills coordinates)
+            </label>
+            <GeocodeSearch onSelect={handleGeocodeSelect} placeholder="Type address to search…" className="mb-2" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Address
             </label>
             <input
               type="text"
               name="address"
               required
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
               placeholder="123 Main St, City, State ZIP"
             />
@@ -89,6 +116,8 @@ export default function NewAssetPage() {
                 name="latitude"
                 required
                 step="any"
+                value={latitude}
+                onChange={(e) => setLatitude(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 placeholder="40.7128"
               />
@@ -102,6 +131,8 @@ export default function NewAssetPage() {
                 name="longitude"
                 required
                 step="any"
+                value={longitude}
+                onChange={(e) => setLongitude(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 placeholder="-74.0060"
               />

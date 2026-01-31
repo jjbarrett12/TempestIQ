@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  serverExternalPackages: ['@prisma/client', 'prisma'],
+  transpilePackages: ['next-auth'],
   experimental: {
-    serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
     optimizePackageImports: ['lucide-react'],
   },
   env: {
