@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { LeadStatus, Prisma } from '@prisma/client'
 import { z } from 'zod'
 
 const createLeadSchema = z.object({
@@ -22,8 +23,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'customerId required' }, { status: 400 })
     }
 
-    const where: { customerId: string; status?: string } = { customerId }
-    if (status) where.status = status as any
+    const where: Prisma.LeadWhereInput = { customerId }
+    if (status && Object.values(LeadStatus).includes(status as LeadStatus)) {
+      where.status = status as LeadStatus
+    }
 
     const leads = await prisma.lead.findMany({
       where,
@@ -60,7 +63,7 @@ export async function POST(request: NextRequest) {
         company: data.company,
         email: data.email || null,
         phone: data.phone || null,
-        status: (data.status as any) || 'NEW',
+        status: data.status || LeadStatus.NEW,
         source: data.source || null,
         assetId: data.assetId || null,
       },
