@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  serverExternalPackages: ['@prisma/client', 'prisma'],
   env: {
     DATABASE_URL: process.env.DATABASE_URL,
     XWEATHER_API_KEY: process.env.XWEATHER_API_KEY,
