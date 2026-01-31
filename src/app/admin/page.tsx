@@ -40,9 +40,9 @@ export default function AdminPage() {
             <Image
               src="/TempestIQ logo transparent.png"
               alt="TempestIQ"
-              width={140}
-              height={36}
-              className="h-9 w-auto object-contain"
+              width={280}
+              height={72}
+              className="h-[72px] w-auto object-contain"
             />
           </Link>
           <h1 className="text-2xl font-bold text-gray-800">Admin Portal</h1>

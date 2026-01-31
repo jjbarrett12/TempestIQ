@@ -7,7 +7,7 @@ interface LogoProps {
   className?: string
 }
 
-const sizeHeights = { sm: 24, md: 40, lg: 64 }
+const sizeHeights = { sm: 80, md: 120, lg: 200 }
 
 export default function Logo({ size = 'md', showText, className = '' }: LogoProps) {
   const h = sizeHeights[size]

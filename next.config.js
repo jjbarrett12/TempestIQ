@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
+    optimizePackageImports: ['lucide-react'],
   },
   env: {
     DATABASE_URL: process.env.DATABASE_URL,

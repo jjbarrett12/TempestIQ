@@ -224,9 +224,9 @@ export default function SurveyPage() {
             <Image
               src="/TempestIQ logo transparent.png"
               alt="TempestIQ"
-              width={100}
-              height={26}
-              className="h-6 w-auto object-contain"
+              width={1000}
+              height={260}
+              className="h-[240px] w-auto object-contain"
             />
             <span>← Back to TempestIQ</span>
           </Link>

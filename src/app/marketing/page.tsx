@@ -1,8 +1,16 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { HailEffect } from '@/components/HailEffect'
-import { LightningEffect } from '@/components/LightningEffect'
+import dynamic from 'next/dynamic'
 import { HeroAlerts } from '@/components/marketing/HeroAlerts'
+
+const HailEffect = dynamic(
+  () => import('@/components/HailEffect').then((m) => ({ default: m.HailEffect })),
+  { ssr: false }
+)
+const LightningEffect = dynamic(
+  () => import('@/components/LightningEffect').then((m) => ({ default: m.LightningEffect })),
+  { ssr: false }
+)
 
 export default function MarketingPage() {
   return (
@@ -14,9 +22,9 @@ export default function MarketingPage() {
             <Image
               src="/TempestIQ logo transparent.png"
               alt="TempestIQ"
-              width={160}
-              height={40}
-              className="h-9 w-auto object-contain"
+              width={1600}
+              height={400}
+              className="h-[360px] w-auto object-contain"
               priority
             />
           </Link>
@@ -626,9 +634,9 @@ export default function MarketingPage() {
                 <Image
                   src="/TempestIQ logo transparent.png"
                   alt="TempestIQ"
-                  width={120}
-                  height={30}
-                  className="h-8 w-auto object-contain"
+                  width={1200}
+                  height={300}
+                  className="h-[320px] w-auto object-contain"
                 />
                 <span className="text-white font-semibold text-lg">TempestIQ</span>
               </div>

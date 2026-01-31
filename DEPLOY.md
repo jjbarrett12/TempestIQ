@@ -6,12 +6,16 @@
 
 ## 1. Vercel Build Settings
 
-In **Vercel Dashboard** → Your Project → **Settings** → **Build & Development**:
+In **Vercel Dashboard** → Your Project → **Settings** → **Build & Development** (and **General**):
 
-- **Build Command:** `npx prisma generate && npx next build` (or leave blank to use `package.json` script)
-- **Output Directory:** `.next` (default)
+- **Framework Preset:** **Next.js** — **Required.** In **Settings → Framework Settings**, change **Framework** from **"Other"** to **Next.js**. If it stays "Other", every route returns 404 because Vercel won’t run the Next.js server.
+- **Root Directory:** leave **empty** (repo root has `package.json` and `next.config.js`)
+- **Build Command:** `npm run build` or leave blank (uses `package.json` script)
+- **Output Directory:** leave **empty** (do not set to `.next` — Vercel runs Next.js serverless; a custom output breaks routing)
 - **Install Command:** (leave default)
-- **Node.js Version:** `24.x` (set in **General** → **Node.js Version**)
+- **Node.js Version:** `24.x` (in **General** → **Node.js Version**)
+
+After changing Framework to Next.js, use **Deployments → … → Redeploy** so the new settings apply.
 
 ---
 

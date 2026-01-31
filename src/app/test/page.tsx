@@ -5,7 +5,7 @@ export default function TestPage() {
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
       <Link href="/marketing" className="inline-block mb-4">
-        <Image src="/TempestIQ logo transparent.png" alt="TempestIQ" width={120} height={32} className="h-8 w-auto object-contain" />
+        <Image src="/TempestIQ logo transparent.png" alt="TempestIQ" width={1200} height={320} className="h-[320px] w-auto object-contain" />
       </Link>
       <h1>✅ Next.js is Working!</h1>
       <p>If you can see this, the server is running correctly.</p>

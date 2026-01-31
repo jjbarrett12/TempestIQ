@@ -157,9 +157,9 @@ function SignupForm() {
             <Image
               src="/TempestIQ logo transparent.png"
               alt="TempestIQ"
-              width={140}
-              height={36}
-              className="h-9 w-auto object-contain"
+              width={280}
+              height={72}
+              className="h-[72px] w-auto object-contain"
             />
           </Link>
         </div>

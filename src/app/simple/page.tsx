@@ -6,7 +6,7 @@ export default function SimplePage() {
     <html>
       <body style={{ padding: '50px', fontFamily: 'Arial' }}>
         <Link href="/marketing" style={{ display: 'inline-block', marginBottom: 24 }}>
-          <Image src="/TempestIQ logo transparent.png" alt="TempestIQ" width={120} height={32} className="h-8 w-auto object-contain" />
+          <Image src="/TempestIQ logo transparent.png" alt="TempestIQ" width={1200} height={320} className="h-[320px] w-auto object-contain" />
         </Link>
         <h1>✅ Server is Running!</h1>
         <p>If you see this, Next.js is working.</p>
