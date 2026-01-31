@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { ProposalStatus, Prisma } from '@prisma/client'
 import { z } from 'zod'
 
 const createProposalSchema = z.object({
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
         leadId: data.leadId || null,
         title: data.title,
         body: data.body,
-        status: (data.status as any) || 'DRAFT',
+        status: data.status || ProposalStatus.DRAFT,
       },
       include: {
         lead: { select: { id: true, name: true, company: true } },
