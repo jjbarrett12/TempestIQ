@@ -80,7 +80,6 @@ export class EventDeduplicator {
         data: {
           status: 'KEEP_ALIVE',
           endTime: event.endTime || existing.endTime,
-          updatedAt: new Date(),
         },
       })
       return { id: updated.id, isNew: false }

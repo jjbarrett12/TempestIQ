@@ -66,10 +66,12 @@ export const PLANS: Record<
   },
 }
 
+const SALES_PLAN_IDS: readonly PlanId[] = [PLAN_IDS.PROFESSIONAL, PLAN_IDS.BUSINESS, PLAN_IDS.ENTERPRISE]
+
 /** Plans that include any sales features (leads, proposals, cadences). */
 export function hasSalesFeatures(plan: PlanId | string | null | undefined): boolean {
   if (!plan) return false
-  return [PLAN_IDS.PROFESSIONAL, PLAN_IDS.BUSINESS, PLAN_IDS.ENTERPRISE].includes(plan as PlanId)
+  return (SALES_PLAN_IDS as readonly string[]).includes(plan)
 }
 
 /** Can track leads and add notes (Professional+). */
@@ -77,8 +79,10 @@ export function canTrackLeads(plan: PlanId | string | null | undefined): boolean
   return hasSalesFeatures(plan)
 }
 
+const BUSINESS_PLUS_IDS: readonly PlanId[] = [PLAN_IDS.BUSINESS, PLAN_IDS.ENTERPRISE]
+
 /** Can create proposals and follow-up cadences (Business+). */
 export function canProposalsAndCadences(plan: PlanId | string | null | undefined): boolean {
   if (!plan) return false
-  return [PLAN_IDS.BUSINESS, PLAN_IDS.ENTERPRISE].includes(plan as PlanId)
+  return (BUSINESS_PLUS_IDS as readonly string[]).includes(plan)
 }

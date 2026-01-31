@@ -51,11 +51,12 @@ export async function schedulePollingJobs() {
  * Increase polling frequency for elevated risk (call this when storms detected)
  */
 export async function enableElevatedRiskMode(assetIds: string[]) {
+  const queue = getPollingQueue()
   // Cancel baseline hail polling
-  await pollingQueue.removeRepeatable('poll-hail-threats-recurring')
+  await queue.removeRepeatable('poll-hail-threats', { every: 10 * 60 * 1000 }, 'poll-hail-threats-recurring')
 
   // Start frequent polling for affected assets
-  await pollingQueue.add(
+  await queue.add(
     'poll-hail-threats-elevated',
     { type: 'hail_threats', assetIds },
     {
@@ -75,7 +76,7 @@ export async function enableElevatedRiskMode(assetIds: string[]) {
 export async function disableElevatedRiskMode() {
   const queue = getPollingQueue()
   
-  await queue.removeRepeatable('poll-hail-threats-elevated-recurring')
+  await queue.removeRepeatable('poll-hail-threats-elevated', { every: 2 * 60 * 1000 }, 'poll-hail-threats-elevated-recurring')
 
   // Restore baseline
   await queue.add(
