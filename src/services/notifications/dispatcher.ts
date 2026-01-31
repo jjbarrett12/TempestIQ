@@ -5,6 +5,16 @@ import { sendEmail, formatAlertEmail } from './email'
 import { Queue } from 'bullmq'
 import { getRedisConnection } from '@/lib/redis'
 
+let notificationQueue: Queue | null = null
+
+function getNotificationQueue(): Queue {
+  if (!notificationQueue) {
+    notificationQueue = new Queue('notifications', {
+      connection: getRedisConnection(),
+    })
+  }
+  return notificationQueue
+}
 
 export interface NotificationJob {
   notificationId: string
@@ -128,7 +138,7 @@ export async function dispatchNotification(notificationId: string): Promise<void
 
     if (shouldRetry) {
       // Re-queue for retry
-      await notificationQueue.add('send', { notificationId }, {
+      await getNotificationQueue().add('send', { notificationId }, {
         delay: Math.pow(2, attempts) * 60000, // Exponential backoff
       })
     }

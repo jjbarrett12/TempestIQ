@@ -41,6 +41,3 @@ export const getRedisConnection = (): Redis => {
   }
   return redisInstance
 }
-
-// For backward compatibility
-export const redis = getRedisConnection()

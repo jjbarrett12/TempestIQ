@@ -62,7 +62,7 @@ export class EventNormalizer {
 
     // For polygon, calculate centroid
     if (area.type === 'Polygon' && area.coordinates[0]) {
-      const coords = area.coordinates[0] as number[][]
+      const coords = area.coordinates[0] as unknown as number[][]
       let latSum = 0
       let lonSum = 0
       let count = 0

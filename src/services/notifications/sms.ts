@@ -1,15 +1,17 @@
 import twilio from 'twilio'
-import { NotificationChannel, NotificationStatus } from '@prisma/client'
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID
-const authToken = process.env.TWILIO_AUTH_TOKEN
-const fromNumber = process.env.TWILIO_PHONE_NUMBER
+let client: ReturnType<typeof twilio> | null = null
 
-if (!accountSid || !authToken || !fromNumber) {
-  throw new Error('Twilio credentials not configured')
+function getTwilioClient(): ReturnType<typeof twilio> {
+  if (client) return client
+  const accountSid = process.env.TWILIO_ACCOUNT_SID
+  const authToken = process.env.TWILIO_AUTH_TOKEN
+  if (!accountSid || !authToken) {
+    throw new Error('Twilio credentials not configured')
+  }
+  client = twilio(accountSid, authToken)
+  return client
 }
-
-const client = twilio(accountSid, authToken)
 
 export interface SMSMessage {
   to: string
@@ -21,8 +23,13 @@ export async function sendSMS({ to, message }: SMSMessage): Promise<{
   providerId?: string
   error?: string
 }> {
+  const fromNumber = process.env.TWILIO_PHONE_NUMBER
+  if (!fromNumber) {
+    return { success: false, error: 'Twilio phone number not configured' }
+  }
   try {
-    const result = await client.messages.create({
+    const twilioClient = getTwilioClient()
+    const result = await twilioClient.messages.create({
       body: message,
       from: fromNumber,
       to,
