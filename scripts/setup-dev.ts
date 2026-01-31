@@ -9,7 +9,7 @@ import { execSync } from 'child_process'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { config } from 'dotenv'
 
-console.log('🚀 Roof Alert - Development Setup\n')
+console.log('🚀 TempestIQ - Development Setup\n')
 console.log('='.repeat(50))
 
 // Step 1: Check .env file

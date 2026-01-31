@@ -68,5 +68,5 @@ export function formatAlertMessage(event: {
     timeZoneName: 'short',
   })
 
-  return `${severityEmoji} ${eventTypeName} - ${timeStr}${event.location ? ` near ${event.location}` : ''}. Check Roof Alert for details.`
+  return `${severityEmoji} ${eventTypeName} - ${timeStr}${event.location ? ` near ${event.location}` : ''}. Check TempestIQ for details.`
 }

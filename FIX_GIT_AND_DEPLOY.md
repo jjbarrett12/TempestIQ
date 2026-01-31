@@ -133,7 +133,30 @@ After your code is committed and pushed:
 - **Railway**: `railway up` or push to connected repo.
 - **Render**: Auto-deploys on push; set build command and env vars in dashboard.
 
-### 3. Environment variables
+### 3. Vercel build log: only “Installing dependencies…” (no more lines)
+
+If the Vercel build log only shows “Installing dependencies…” and npm warnings, try this:
+
+1. **See the full log**
+   - In Vercel: **Deployments** → click the deployment (e.g. “Building” or “Failed”) → open the **Building** step.
+   - **Scroll to the very bottom** of the log (the box is scrollable).
+   - If there’s a **“View full log”** or **“Download”** link, use it to get the complete output.
+   - The actual build step (`prisma generate`, `next build`) runs *after* install; it will only appear in the log once install finishes.
+
+2. **If the log really stops at install**
+   - The build may be **failing during `npm install`** (e.g. network or dependency error). In the full log, look for red error lines after “Installing dependencies…”.
+   - Or the build may be **timing out** during install. In **Project Settings → General**, set **Node.js Version** to **18.x** (the project’s `package.json` now requests this).
+
+3. **Build command**
+   - In **Project Settings → Build & Development** set **Build Command** to:  
+     `npx prisma generate && npx next build`  
+     (or leave blank to use the `build` script from `package.json`).
+   - **Output Directory**: leave default (e.g. `.next` for Next.js).
+
+4. **After these changes**
+   - Commit and push the latest code (including `package.json` with `engines` and `postinstall`). The `postinstall` step runs `prisma generate` right after install so the build step is more likely to succeed.
+
+### 4. Environment variables
 
 Set these in your hosting dashboard (see `.env.example` and [DEPLOYMENT.md](./DEPLOYMENT.md)):
 
@@ -149,7 +172,7 @@ Run once per deployment if schema changed:
 npx prisma migrate deploy
 ```
 
-### 5. Workers (optional)
+### 6. Workers (optional)
 
 Workers don’t run on Vercel. To run polling/notification workers, use a separate process or host (e.g. Railway/Render). See [DEPLOYMENT.md](./DEPLOYMENT.md) and [RUN_LIVE.md](./RUN_LIVE.md).
 

@@ -31,12 +31,22 @@ git commit -m "TempestIQ: logo, branding, URL setup"
 **Connect and push:**
 
 ```powershell
-git remote add origin https://github.com/YOUR_USERNAME/REPO_NAME.git
+git remote add origin https://github.com/YOUR_GITHUB_USERNAME/REPO_NAME.git
 git branch -M main
 git push -u origin main
 ```
 
-Replace `YOUR_USERNAME` and `REPO_NAME` with your GitHub username and repo name. If it asks for login, use a **Personal Access Token** (GitHub → Settings → Developer settings → Personal access tokens) as the password.
+**Important:** Replace `YOUR_GITHUB_USERNAME` with your real GitHub username (e.g. `jjbarrett`) and `REPO_NAME` with the repo you created (e.g. `tempestiq`). Example: `https://github.com/jjbarrett/tempestiq.git`
+
+If you already added the wrong remote, fix it:
+
+```powershell
+git remote remove origin
+git remote add origin https://github.com/YOUR_GITHUB_USERNAME/REPO_NAME.git
+git push -u origin main
+```
+
+If Git asks for login, use your GitHub username and a **Personal Access Token** (GitHub → Settings → Developer settings → Personal access tokens) as the password.
 
 ---
 
@@ -92,7 +102,8 @@ Vercel will build and deploy automatically. Check **Deployments** for status, th
 
 | Problem | What to do |
 |--------|------------|
-| **Build fails on Prisma** | In Vercel → Project → Settings → General, set **Build Command** to `npx prisma generate && npx next build`. Ensure Prisma is in `dependencies` in package.json. |
+| **Build Failed – "npm run build" exited with 1** | In Vercel → Project → **Settings** → **General** → **Build & Development Settings**, set **Build Command** to `npx prisma generate && npx next build`. Save, then **Redeploy** from the Deployments tab. |
+| **Build fails on Prisma** | Same as above: set **Build Command** to `npx prisma generate && npx next build`. Ensure Prisma is in `dependencies` in package.json. |
 | **Build fails (missing env)** | Add the required variables in Project → Settings → Environment Variables. For a first deploy you can start with just `NEXTAUTH_URL` and `NEXT_PUBLIC_APP_URL`. |
 | **“No Deployment”** | Make sure you clicked **Deploy** after importing, and that the build completed (green checkmark). |
 | **404 on tempestiq.com** | Confirm the domain is assigned to this project and DNS is correct; see [FIX_404.md](./FIX_404.md). |
