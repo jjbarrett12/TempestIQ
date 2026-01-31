@@ -3,6 +3,10 @@ import { prisma } from '@/lib/prisma'
 import { LeadStatus, Prisma } from '@prisma/client'
 import { z } from 'zod'
 
+function isValidLeadStatus(status: string | null): status is LeadStatus {
+  return status !== null && Object.values(LeadStatus).includes(status as LeadStatus)
+}
+
 const createLeadSchema = z.object({
   customerId: z.string().min(1),
   name: z.string().min(1),
@@ -23,10 +27,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'customerId required' }, { status: 400 })
     }
 
-    const where: Prisma.LeadWhereInput = { customerId }
-    if (status && Object.values(LeadStatus).includes(status as LeadStatus)) {
-      where.status = status as LeadStatus
-    }
+    const where: Prisma.LeadWhereInput = isValidLeadStatus(status)
+      ? { customerId, status }
+      : { customerId }
 
     const leads = await prisma.lead.findMany({
       where,
