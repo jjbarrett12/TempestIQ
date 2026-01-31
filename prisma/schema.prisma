@@ -1,0 +1,361 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  phone       String?
+  company     String?
+  // Billing: plan tier and Stripe IDs for self-serve subscriptions
+  planTier    String?  // STARTER | PROFESSIONAL | BUSINESS | ENTERPRISE
+  stripeCustomerId    String?
+  stripeSubscriptionId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       User[]
+  assets      Asset[]
+  subscriptions Subscription[]
+  notifications Notification[]
+  usageTokens UsageToken[]
+  leads       Lead[]
+  proposals   Proposal[]
+  followUpCadences FollowUpCadence[]
+
+  @@index([email])
+}
+
+model User {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  passwordHash String
+  role       UserRole @default(CUSTOMER)
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@index([email])
+  @@index([customerId])
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+model Asset {
+  id          String   @id @default(cuid())
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  name        String
+  address     String
+  latitude    Float
+  longitude   Float
+  radiusMiles Float   @default(5.0) // Alert radius in miles
+  timezone    String  @default("America/New_York")
+  active      Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  subscriptions Subscription[]
+  events        Event[]
+  leads         Lead[]
+
+  @@index([customerId])
+  @@index([latitude, longitude])
+}
+
+model Subscription {
+  id              String   @id @default(cuid())
+  customerId      String
+  customer        Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  assetId         String
+  asset           Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  
+  // Alert types
+  tornadoWarning  Boolean  @default(true)
+  tornadoWatch   Boolean  @default(false)
+  severeTstormWarning Boolean @default(true)
+  hailThreat      Boolean  @default(true)
+  extremeWind     Boolean  @default(true)
+  
+  // Notification channels
+  smsEnabled      Boolean  @default(true)
+  emailEnabled    Boolean  @default(true)
+  pushEnabled     Boolean  @default(false)
+  webhookUrl      String?
+  
+  // Quiet hours (UTC)
+  quietHoursStart Int?     // Hour 0-23
+  quietHoursEnd   Int?     // Hour 0-23
+  
+  // Escalation
+  requireAck      Boolean  @default(false) // Require acknowledgement for tornado warnings
+  escalationDelay Int?     @default(15)    // Minutes before escalation
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  notifications   Notification[]
+  
+  @@index([customerId])
+  @@index([assetId])
+}
+
+model EventRaw {
+  id          String   @id @default(cuid())
+  source      String   // "xweather_alerts", "xweather_hail_threats", etc.
+  rawPayload  Json     // Store full Xweather response
+  costTokens  Int?     // X-Cost-Tokens header value
+  fetchedAt   DateTime @default(now())
+  
+  @@index([source, fetchedAt])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  eventType   EventType
+  severity    EventSeverity
+  confidence  Float?   // 0-1 confidence score
+  source      String   // Source system identifier
+  sourceEventId String? // Original event ID from source
+  
+  // Geometry
+  latitude    Float
+  longitude   Float
+  radiusMiles Float?   // For point+radius
+  geometry    Json?    // For complex polygons
+  
+  // Timing
+  startTime   DateTime
+  endTime     DateTime?
+  detectedAt  DateTime @default(now())
+  
+  // Status
+  status      EventStatus @default(ACTIVE)
+  clearedAt   DateTime?
+  
+  // Relations
+  assetId     String?
+  asset       Asset?    @relation(fields: [assetId], references: [id], onDelete: SetNull)
+  
+  notifications Notification[]
+  
+  @@index([eventType, status, startTime])
+  @@index([assetId, status])
+  @@index([source, sourceEventId])
+  @@index([latitude, longitude])
+}
+
+enum EventType {
+  HAIL_THREAT
+  TORNADO_WARNING
+  TORNADO_WATCH
+  SEVERE_TSTORM_WARNING
+  HIGH_WIND_WARNING
+  EXTREME_WIND_GUST
+}
+
+enum EventSeverity {
+  LOW
+  MODERATE
+  HIGH
+  EXTREME
+}
+
+enum EventStatus {
+  ACTIVE
+  KEEP_ALIVE
+  CLEARED
+}
+
+model Notification {
+  id            String   @id @default(cuid())
+  customerId    String
+  customer      Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  subscriptionId String
+  subscription  Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  eventId       String
+  event         Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  channel       NotificationChannel
+  status        NotificationStatus @default(PENDING)
+  
+  // Delivery details
+  recipient     String   // Phone number, email, push token, etc.
+  message       String
+  providerId    String?  // External provider message ID
+  providerResponse Json? // Full provider response
+  
+  // Retry logic
+  attempts      Int      @default(0)
+  maxAttempts   Int      @default(3)
+  nextRetryAt   DateTime?
+  deliveredAt   DateTime?
+  failedAt      DateTime?
+  failureReason String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([customerId, createdAt])
+  @@index([status, nextRetryAt])
+  @@index([eventId])
+}
+
+enum NotificationChannel {
+  SMS
+  EMAIL
+  PUSH
+  WEBHOOK
+  IN_APP
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+  CANCELLED
+}
+
+model UsageToken {
+  id          String   @id @default(cuid())
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  date        DateTime @db.Date
+  tokens      Int      @default(0)
+  source      String   // Which endpoint/service
+
+  createdAt   DateTime @default(now())
+
+  @@unique([customerId, date, source])
+  @@index([customerId, date])
+}
+
+// ——— Sales (tiered: leads Professional+, proposals/cadences Business+) ———
+
+model Lead {
+  id          String   @id @default(cuid())
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  name        String
+  company     String?
+  email       String?
+  phone       String?
+  status      LeadStatus @default(NEW)
+  source      String?  // e.g. "website", "referral", "event"
+  assetId     String?  // Optional link to a service area
+  asset       Asset?   @relation(fields: [assetId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  notes       Note[]
+  proposals   Proposal[]
+  cadenceAssignments LeadCadence[]
+
+  @@index([customerId])
+  @@index([customerId, status])
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL_SENT
+  NEGOTIATION
+  WON
+  LOST
+}
+
+model Note {
+  id          String   @id @default(cuid())
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([leadId])
+}
+
+model Proposal {
+  id          String   @id @default(cuid())
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  leadId      String?
+  lead        Lead?    @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  title       String
+  body        String   // HTML or markdown content
+  status      ProposalStatus @default(DRAFT)
+  sentAt      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([leadId])
+}
+
+enum ProposalStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+  DECLINED
+}
+
+model FollowUpCadence {
+  id          String   @id @default(cuid())
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  steps       FollowUpCadenceStep[]
+  leadAssignments LeadCadence[]
+
+  @@index([customerId])
+}
+
+model FollowUpCadenceStep {
+  id          String   @id @default(cuid())
+  cadenceId   String
+  cadence     FollowUpCadence @relation(fields: [cadenceId], references: [id], onDelete: Cascade)
+  dayOffset   Int      // Days after cadence start (0 = day 0)
+  actionType  String   // "email", "call", "task", "meeting"
+  subject     String?
+  body        String?
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([cadenceId])
+}
+
+model LeadCadence {
+  id          String   @id @default(cuid())
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  cadenceId   String
+  cadence     FollowUpCadence @relation(fields: [cadenceId], references: [id], onDelete: Cascade)
+  startedAt   DateTime @default(now())
+  nextDueAt   DateTime?
+  currentStepIndex Int  @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([leadId, cadenceId])
+  @@index([leadId])
+  @@index([cadenceId])
+}
