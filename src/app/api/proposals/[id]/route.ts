@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { ProposalStatus, Prisma } from '@prisma/client'
 import { z } from 'zod'
 
 const updateProposalSchema = z.object({
@@ -40,20 +41,20 @@ export async function PATCH(
     const body = await request.json()
     const data = updateProposalSchema.parse(body)
 
-    const updateData: Record<string, unknown> = {}
+    const updateData: Prisma.ProposalUpdateInput = {}
     if (data.title !== undefined) updateData.title = data.title
     if (data.body !== undefined) updateData.body = data.body
-    if (data.status !== undefined) updateData.status = data.status as any
+    if (data.status !== undefined) updateData.status = data.status as ProposalStatus
     if (data.sentAt !== undefined) {
       updateData.sentAt = data.sentAt ? new Date(data.sentAt) : null
     }
-    if (data.status === 'SENT' && !(updateData as any).sentAt) {
-      (updateData as any).sentAt = new Date()
+    if (data.status === 'SENT' && !updateData.sentAt) {
+      updateData.sentAt = new Date()
     }
 
     const proposal = await prisma.proposal.update({
       where: { id },
-      data: updateData as any,
+      data: updateData,
       include: { lead: true },
     })
 

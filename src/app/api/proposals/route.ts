@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'customerId required' }, { status: 400 })
     }
 
-    const where: { customerId: string; leadId?: string | null } = { customerId }
+    const where: Prisma.ProposalWhereInput = { customerId }
     if (leadId) where.leadId = leadId
 
     const proposals = await prisma.proposal.findMany({
