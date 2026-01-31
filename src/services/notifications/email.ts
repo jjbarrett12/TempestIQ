@@ -1,13 +1,17 @@
 import sgMail from '@sendgrid/mail'
 
-const apiKey = process.env.SENDGRID_API_KEY
-const fromEmail = process.env.SENDGRID_FROM_EMAIL || 'alerts@tempestiq.com'
+let apiKeySet = false
 
-if (!apiKey) {
-  throw new Error('SendGrid API key not configured')
+function ensureSendGridConfigured(): string {
+  if (apiKeySet) return process.env.SENDGRID_FROM_EMAIL || 'alerts@tempestiq.com'
+  const apiKey = process.env.SENDGRID_API_KEY
+  if (!apiKey) {
+    throw new Error('SendGrid API key not configured')
+  }
+  sgMail.setApiKey(apiKey)
+  apiKeySet = true
+  return process.env.SENDGRID_FROM_EMAIL || 'alerts@tempestiq.com'
 }
-
-sgMail.setApiKey(apiKey)
 
 export interface EmailMessage {
   to: string
@@ -22,6 +26,7 @@ export async function sendEmail({ to, subject, html, text }: EmailMessage): Prom
   error?: string
 }> {
   try {
+    const fromEmail = ensureSendGridConfigured()
     const msg = {
       to,
       from: fromEmail,
