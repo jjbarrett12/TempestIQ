@@ -149,6 +149,22 @@ function SignupForm() {
 
   const selectedPlanInfo = PLANS[formData.plan as PlanId]
 
+  // Password strength for meter (length, variety)
+  const passwordStrength = (() => {
+    const p = formData.password
+    if (!p.length) return { score: 0, label: '', width: '0%' }
+    let score = 0
+    if (p.length >= 8) score += 1
+    if (p.length >= 12) score += 1
+    if (/[a-z]/.test(p) && /[A-Z]/.test(p)) score += 1
+    if (/\d/.test(p)) score += 1
+    if (/[^a-zA-Z0-9]/.test(p)) score += 1
+    const labels = ['Weak', 'Fair', 'Good', 'Strong']
+    const widths = ['25%', '50%', '75%', '100%']
+    const idx = Math.min(score, 4) - 1
+    return { score, label: labels[idx] ?? '', width: widths[idx] ?? '0%' }
+  })()
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       <header className="bg-white/90 border-b border-indigo-100 shadow-sm">
@@ -214,6 +230,43 @@ function SignupForm() {
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="At least 8 characters"
               />
+              {formData.password.length > 0 && (
+                <div className="mt-1.5">
+                  <div className="flex gap-2 items-center">
+                    <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-200"
+                        style={{
+                          width: passwordStrength.width,
+                          backgroundColor:
+                            passwordStrength.score <= 1
+                              ? '#dc2626'
+                              : passwordStrength.score === 2
+                                ? '#ea580c'
+                                : passwordStrength.score === 3
+                                  ? '#ca8a04'
+                                  : '#16a34a',
+                        }}
+                      />
+                    </div>
+                    <span
+                      className="text-xs font-medium tabular-nums"
+                      style={{
+                        color:
+                          passwordStrength.score <= 1
+                            ? '#dc2626'
+                            : passwordStrength.score === 2
+                              ? '#ea580c'
+                              : passwordStrength.score === 3
+                                ? '#ca8a04'
+                                : '#16a34a',
+                      }}
+                    >
+                      {passwordStrength.label}
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Company (optional)</label>
@@ -271,7 +324,7 @@ function SignupForm() {
 
           <p className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{' '}
-            <Link href="/dashboard" className="text-indigo-600 hover:underline font-medium">
+            <Link href="/signin" className="text-indigo-600 hover:underline font-medium">
               Sign in
             </Link>
           </p>

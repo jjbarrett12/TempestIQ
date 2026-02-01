@@ -9,10 +9,12 @@ import { useSearchParams } from 'next/navigation'
 export default function SignInPage() {
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard'
+  const authError = searchParams.get('error')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const errorMessage = error || (authError ? 'Unable to sign in. Please check your details and try again.' : '')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -58,9 +60,9 @@ export default function SignInPage() {
             Use your TempestIQ account to access the dashboard.
           </p>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="p-3 rounded-lg bg-red-50 text-red-700 text-sm">
-                {error}
+            {errorMessage && (
+              <div className="p-3 rounded-lg bg-red-50 text-red-700 text-sm" role="alert">
+                {errorMessage}
               </div>
             )}
             <div>

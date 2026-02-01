@@ -19,14 +19,15 @@ export function MarketingHeader() {
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-b-2 border-indigo-100 z-50 shadow-sm">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center max-w-7xl">
-        <Link href="/marketing" className="flex items-center gap-3" onClick={() => setMobileOpen(false)}>
+        <Link href="/" className="flex items-center gap-3 shrink-0" onClick={() => setMobileOpen(false)}>
           <Image
-            src="/TempestIQ logo transparent.png"
+            src="/TempestIQ%20logo%20transparent.png"
             alt="TempestIQ"
-            width={200}
-            height={48}
+            width={260}
+            height={72}
             className="h-10 w-auto object-contain md:h-12"
             priority
+            unoptimized
           />
         </Link>
         <nav className="hidden md:flex gap-8 items-center">
@@ -42,7 +43,7 @@ export function MarketingHeader() {
         </nav>
         <div className="flex gap-3 items-center">
           <Link
-            href="/dashboard"
+            href="/signin"
             className="hidden sm:inline-block px-4 py-2 text-sm text-gray-700 hover:text-indigo-600 font-medium transition-colors"
           >
             Sign In

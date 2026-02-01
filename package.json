@@ -19,6 +19,7 @@
     "worker:all": "tsx scripts/start-workers.ts",
     "scheduler:init": "tsx scripts/init-scheduler.ts",
     "db:seed": "tsx scripts/create-test-customer.ts",
+    "seed:storms": "tsx scripts/seed-storms.ts",
     "test:apis": "tsx scripts/test-api-connections.ts",
     "validate:env": "tsx scripts/validate-env.ts",
     "setup": "tsx scripts/setup-dev.ts"
@@ -26,6 +27,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "^5.19.0",
+    "@react-pdf/renderer": "^4.3.2",
     "@sendgrid/mail": "^8.1.0",
     "@tanstack/react-query": "^5.51.0",
     "@types/leaflet": "^1.9.21",

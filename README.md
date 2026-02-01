@@ -1,12 +1,46 @@
-# StormBridge Platform
+# TempestIQ Storm Monetization Platform
 
-**AI-Powered Lead Generation for Roofing & Insurance**
+**Storm Monetization + Proof System for Roofing & Restoration**
 
-StormBridge is a lead generation platform that uses advanced weather intelligence to help roofing companies and insurance agencies turn severe weather events into qualified leads. We monitor hail, tornado, and extreme wind events using Xweather, then deliver real-time alerts via SMS, email, push notifications, and in-app notifications.
+TempestIQ is not a weather-alert app. It turns storm intelligence into revenue by showing where the money is, generating verification proof, and helping teams act fast with sales-ready workflows.
 
 **→ If the site keeps timing out or hanging**, see **[RUN_LIVE.md](./RUN_LIVE.md)** for timeouts, env vars, and how to run it live.
 
-## What to set up
+## MVP Quickstart (Storm Monetization Mode)
+
+1) Install dependencies
+```bash
+npm install
+```
+
+2) Seed mock storm data
+```bash
+npm run seed:storms
+```
+
+3) Start the app
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3005/dashboard` to explore storms, polygons, and verification reports.
+
+## Supabase Schema + RLS
+
+Supabase SQL migrations live in `supabase/migrations/20260131000000_init.sql`. It defines:
+- Multi-tenant tables with `org_id`
+- RLS policies enforcing org-level access
+- Report storage for proof artifacts
+
+## Mock Storm Data
+
+Mock storm events + polygons are generated into `data/mock-storms.json`. This is a placeholder for provider integration (Tomorrow.io / Xweather).
+
+## PDF Verification Reports
+
+Reports are generated server-side and available at `/api/reports/:id/pdf`.
+
+## What to set up (Full Stack)
 
 **→ See [SETUP_CHECKLIST.md](./SETUP_CHECKLIST.md)** for a prioritized list. In short:
 

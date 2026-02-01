@@ -23,13 +23,13 @@ export default function MarketingPage() {
               Weather → Money. For Roofers, Restoration, Solar, Fence &amp; Gutter.
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1] tracking-tight drop-shadow-sm">
-              We Tell You Who to Call,
+              Every storm creates demand.
               <span className="block mt-2 bg-gradient-to-r from-sky-300 via-indigo-200 to-purple-200 bg-clip-text text-transparent">
-                When—and Why They&apos;ll Say Yes
+                TempestIQ helps you capture it first.
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
-              Win more jobs. Prove damage. Move faster than competitors. One roof = $10k–$25k. $200/mo is irrelevant if it creates one job.
+              TempestIQ turns weather data into job-ready targets, so your team moves first with proof in hand.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link
@@ -173,10 +173,10 @@ export default function MarketingPage() {
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-6">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight drop-shadow-sm">
-              You&apos;re Not Selling Alerts. <span className="bg-gradient-to-r from-sky-300 via-indigo-200 to-purple-200 bg-clip-text text-transparent">You&apos;re Selling Evidence.</span>
+              Why AI Is the Difference Between Alerts and Business Growth
             </h2>
-            <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-              Time-stamped storm proof. Certified reports. The difference between claim approved and claim denied.
+            <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+              Anyone can send alerts. TempestIQ uses AI to turn storm intelligence into revenue—pinpointing when to act, where to deploy, and what actually drives results.
             </p>
           </div>
 

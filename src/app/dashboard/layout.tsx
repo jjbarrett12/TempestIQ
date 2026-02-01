@@ -72,6 +72,8 @@ export default function DashboardLayout({
   const navLinks = (
     <>
       {navLink('/dashboard', 'Overview')}
+      {navLink('/dashboard/events', 'Storms')}
+      {navLink('/dashboard/reports', 'Reports')}
       {navLink('/dashboard/assets', 'Locations')}
       {navLink('/dashboard/scripts', 'Scripts')}
       {showSales && (
