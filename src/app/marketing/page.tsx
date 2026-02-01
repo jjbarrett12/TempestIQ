@@ -23,13 +23,13 @@ export default function MarketingPage() {
               AI-Powered Weather Intelligence Platform
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1] tracking-tight drop-shadow-sm">
-              Every storm creates demand.
+              Turn severe weather into
               <span className="block mt-2 bg-gradient-to-r from-sky-300 via-indigo-200 to-purple-200 bg-clip-text text-transparent">
-                TempestIQ helps you capture it first.
+                actionable revenue intelligence.
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
-              TempestIQ turns weather data into job-ready targets, so your team moves first with proof in hand.
+              TempestIQ combines real-time alerts, impact scoring, and automated workflows to help teams act faster, target smarter, and win more jobs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link
@@ -69,85 +69,26 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* Industries Served */}
+      {/* Built for action—across industries */}
       <section id="solutions" className="py-24 px-6 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-              Industries <span className="text-indigo-600">Served</span>
+          <div className="text-center max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 tracking-tight">
+              Built for action—<span className="text-indigo-600">across industries</span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Weather intelligence for operations, safety, and risk—across every sector that depends on it
+            <p className="text-lg text-gray-600 leading-relaxed mb-8">
+              TempestIQ is trusted by teams where timing matters.
+              While contractors, insurers, and field operators see the
+              fastest ROI, any business impacted by severe weather can
+              use TempestIQ to prioritize response, reduce downtime,
+              and capture opportunity.
             </p>
-          </div>
-
-          {/* 13 cards: last row centered on xl (5+5+3) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-indigo-300 bg-white hover:border-indigo-500 hover:shadow-lg hover:shadow-indigo-500/20 transition-all min-h-[140px]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">⚡</span> Utilities</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Electric, gas, water — storm prep, outage prediction, crew dispatch</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-indigo-600 font-medium">wind, ice, lightning, heat, freeze</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-purple-300 bg-white hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/10 transition-all min-h-[140px]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">✈️</span> Aviation</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Airports, airlines, FBOs — runway ops, ground crew safety, delays</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-purple-600 font-medium">lightning, fog, wind shear, snow</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-cyan-300 bg-white hover:border-cyan-500 hover:shadow-lg hover:shadow-cyan-500/10 transition-all min-h-[140px]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">🚚</span> Transportation &amp; Logistics</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Trucking, railroads, ports — fleet and region safety</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-cyan-600 font-medium">snow, ice, wind, flooding</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-teal-300 bg-white hover:border-teal-500 hover:shadow-lg hover:shadow-teal-500/10 transition-all min-h-[140px]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">🏗️</span> Construction &amp; Infrastructure</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">General contractors, road &amp; bridge, utilities construction</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-teal-600 font-medium">lightning, wind, heat, freeze</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-amber-300 bg-white hover:border-amber-500 hover:shadow-lg hover:shadow-amber-500/10 transition-all min-h-[140px]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">👷</span> Outdoor Labor Employers</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Landscaping, roofing, solar, tree services, concrete</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-amber-600 font-medium">lightning, heat index, wind, rain</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-emerald-300 bg-white hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all min-h-[140px]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">🌾</span> Agriculture &amp; AgTech</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Row crops, orchards, vineyards, livestock</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-emerald-600 font-medium">frost, hail, heat stress, rainfall, wind</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-indigo-300 bg-white hover:border-indigo-500 hover:shadow-lg hover:shadow-indigo-500/20 transition-all min-h-[140px]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">🛡️</span> Insurance</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Property insurers, reinsurance, claims, CAT teams</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-indigo-600 font-medium">hail, wind, flood, wildfire risk</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-slate-300 bg-white hover:border-slate-500 hover:shadow-lg hover:shadow-slate-500/10 transition-all min-h-[140px]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">🏢</span> Facilities Management</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Hospitals, universities, warehouses, data centers</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-slate-600 font-medium">freeze, heat, flooding, wind</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-pink-300 bg-white hover:border-pink-500 hover:shadow-lg hover:shadow-pink-500/10 transition-all min-h-[140px]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">🛒</span> Retail &amp; QSR Chains</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Drive-thru impact, foot traffic, storm prep</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-pink-600 font-medium">snow, rain, heat</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-violet-300 bg-white hover:border-violet-500 hover:shadow-lg hover:shadow-violet-500/10 transition-all min-h-[140px]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">🎪</span> Event &amp; Venue Operators</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Stadiums, concerts, festivals</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-violet-600 font-medium">lightning, wind, rain</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-sky-300 bg-white hover:border-sky-500 hover:shadow-lg hover:shadow-sky-500/10 transition-all min-h-[140px] xl:[grid-column:2]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">🌱</span> Renewable Energy</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Solar farms, wind farms, battery storage</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-sky-600 font-medium">cloud cover, wind speed, lightning</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-blue-300 bg-white hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10 transition-all min-h-[140px] xl:[grid-column:3]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">🚢</span> Maritime &amp; Offshore</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Fishing fleets, oil &amp; gas, ferries</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-blue-600 font-medium">storms, wind, wave height</span></p>
-            </div>
-            <div className="p-6 md:p-7 rounded-2xl border-2 border-rose-300 bg-white hover:border-rose-500 hover:shadow-lg hover:shadow-rose-500/10 transition-all min-h-[140px] xl:[grid-column:4]">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2"><span aria-hidden className="text-xl">🏙️</span> Municipalities &amp; Smart Cities</h4>
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">Emergency management, public works, snow removal</p>
-              <p className="text-sm leading-relaxed"><span className="font-medium text-gray-700">Alerts:</span> <span className="text-rose-600 font-medium">all hazards</span></p>
-            </div>
+            <Link
+              href="#contact"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium transition-colors"
+            >
+              👉 Not seeing your industry? Let&apos;s talk.
+            </Link>
           </div>
 
           {/* Safety & Compliance - Liability Shield */}
@@ -617,7 +558,7 @@ export default function MarketingPage() {
             <div className="min-w-0">
               <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Product</h4>
               <ul className="space-y-2.5 text-sm text-slate-300">
-                <li><a href="#solutions" className="hover:text-indigo-400 transition-colors">Industries Served</a></li>
+                <li><a href="#solutions" className="hover:text-indigo-400 transition-colors">Built for Action</a></li>
                 <li><a href="#why-ai" className="hover:text-indigo-400 transition-colors">Why AI</a></li>
                 <li><a href="#features" className="hover:text-indigo-400 transition-colors">Features</a></li>
                 <li><a href="#pricing" className="hover:text-indigo-400 transition-colors">Pricing</a></li>

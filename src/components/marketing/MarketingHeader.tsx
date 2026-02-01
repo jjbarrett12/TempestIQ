@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const NAV_LINKS = [
-  { href: '#solutions', label: 'Industries Served' },
+  { href: '#solutions', label: 'Built for Action' },
   { href: '#why-ai', label: 'Why AI' },
   { href: '#features', label: 'Features' },
   { href: '#safety', label: 'Safety' },
@@ -25,7 +25,7 @@ export function MarketingHeader() {
             alt="TempestIQ"
             width={1300}
             height={360}
-            className="h-[12.5rem] w-auto object-contain md:h-[15rem]"
+            className="h-[62.5rem] w-auto object-contain md:h-[75rem] max-h-[80vh]"
             priority
             unoptimized
           />
