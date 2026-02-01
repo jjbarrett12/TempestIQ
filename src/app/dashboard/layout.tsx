@@ -124,11 +124,11 @@ export default function DashboardLayout({
         </>
       )}
       {navLink('/dashboard/settings', 'Settings')}
-      {navLink('/marketing', 'Marketing')}
+      {navLink('/', 'Home')}
       {session && (
         <button
           type="button"
-          onClick={() => signOut({ callbackUrl: '/marketing' })}
+          onClick={() => signOut({ callbackUrl: '/' })}
           className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
         >
           Sign out

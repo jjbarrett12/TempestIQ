@@ -77,7 +77,7 @@ export default function AdminPage() {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/marketing" className="inline-block">
+          <Link href="/" className="inline-block">
             <Image
               src="/TempestIQ logo transparent.png"
               alt="TempestIQ"

@@ -38,7 +38,7 @@ if errorlevel 1 (
 echo.
 
 echo Starting server on port 3005...
-echo Once you see "Ready", visit: http://localhost:3005/marketing
+echo Once you see "Ready", visit: http://localhost:3005
 echo Press Ctrl+C to stop the server
 echo.
 echo ========================================

@@ -6,6 +6,7 @@ const contactSchema = z.object({
   email: z.string().email(),
   message: z.string().min(10),
   company: z.string().optional(),
+  industry: z.string().optional(),
 })
 
 export async function POST(request: NextRequest) {

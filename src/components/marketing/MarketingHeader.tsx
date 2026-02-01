@@ -5,10 +5,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const NAV_LINKS = [
-  { href: '#solutions', label: 'Built for Action' },
+  { href: '#solutions', label: 'Who Uses TempestIQ' },
   { href: '#why-ai', label: 'Why AI' },
   { href: '#features', label: 'Features' },
-  { href: '#safety', label: 'Safety' },
+  { href: '#proof', label: 'Proof' },
   { href: '#pricing', label: 'Pricing' },
   { href: '#contact', label: 'Contact' },
 ]
@@ -19,7 +19,7 @@ export function MarketingHeader() {
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-b-2 border-indigo-100 z-50 shadow-sm overflow-visible">
       <div className="container mx-auto px-6 py-3 flex justify-between items-center max-w-7xl">
-        <Link href="/" className="flex items-center shrink-0 origin-left scale-[2]" onClick={() => setMobileOpen(false)}>
+        <Link href="/" className="flex items-center shrink-0 origin-left scale-[2.75]" onClick={() => setMobileOpen(false)}>
           <Image
             src="/TempestIQ%20logo%20transparent.png"
             alt="TempestIQ"

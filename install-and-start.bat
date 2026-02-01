@@ -43,7 +43,7 @@ echo Installation Complete!
 echo ========================================
 echo.
 echo Step 4: Starting server...
-echo   Server will be at: http://localhost:3005/marketing
+echo   Server will be at: http://localhost:3005
 echo   Keep this window open!
 echo.
 call npm run dev

@@ -169,7 +169,7 @@ function SignupForm() {
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       <header className="bg-white/90 border-b border-indigo-100 shadow-sm">
         <div className="container mx-auto px-4 py-4">
-          <Link href="/marketing" className="inline-block">
+          <Link href="/" className="inline-block">
             <Image
               src="/TempestIQ logo transparent.png"
               alt="TempestIQ"

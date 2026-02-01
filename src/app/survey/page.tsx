@@ -210,7 +210,7 @@ export default function SurveyPage() {
               Continue to sign up & subscribe
             </Link>
             <Link
-              href="/marketing#pricing"
+              href="/#pricing"
               className="block w-full text-center px-6 py-3 text-gray-600 hover:text-indigo-600 font-medium"
             >
               View all plans
@@ -225,7 +225,7 @@ export default function SurveyPage() {
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-purple-50 flex items-center justify-center px-4 py-12">
       <div className="max-w-lg w-full bg-white rounded-2xl shadow-xl border border-indigo-100 p-8 md:p-10">
         <div className="mb-8">
-          <Link href="/marketing" className="inline-flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-700 font-medium">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-700 font-medium">
             <Image
               src="/TempestIQ logo transparent.png"
               alt="TempestIQ"
