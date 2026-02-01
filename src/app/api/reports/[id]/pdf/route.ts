@@ -8,9 +8,10 @@ import { StormReportDocument } from '@/lib/reports/pdf'
 
 export const runtime = 'nodejs'
 
-export async function GET(_request: Request, { params }: { params: { id: string } }) {
+export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const { orgId } = await requireOrgContext()
-  const report = await getReport(orgId, params.id)
+  const report = await getReport(orgId, id)
 
   if (!report) {
     return NextResponse.json({ error: 'Report not found' }, { status: 404 })
