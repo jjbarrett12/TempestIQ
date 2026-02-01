@@ -27,7 +27,11 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await getServerSession(authOptions)
     const { id } = await params
+    if (!canAccessCustomer(id, session)) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
 
     const customer = await withTimeout(
       prisma.customer.findUnique({

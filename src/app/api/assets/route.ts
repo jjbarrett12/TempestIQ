@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
+import { authOptions } from '@/lib/auth'
 import { z } from 'zod'
+
+function canAccessCustomerId(
+  customerId: string,
+  session: { user?: { customerId?: string; role?: string } } | null
+): boolean {
+  if (!session?.user) return false
+  const role = (session.user as { role?: string }).role
+  if (role === 'ADMIN') return true
+  return session.user.customerId === customerId
+}
 
 const createAssetSchema = z.object({
   name: z.string().min(1),
@@ -13,11 +25,15 @@ const createAssetSchema = z.object({
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
     const searchParams = request.nextUrl.searchParams
     const customerId = searchParams.get('customerId')
 
     if (!customerId) {
       return NextResponse.json({ error: 'customerId required' }, { status: 400 })
+    }
+    if (!canAccessCustomerId(customerId, session)) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
     const assets = await prisma.asset.findMany({
@@ -36,11 +52,15 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
     const body = await request.json()
     const { customerId, ...data } = body
 
     if (!customerId) {
       return NextResponse.json({ error: 'customerId required' }, { status: 400 })
+    }
+    if (!canAccessCustomerId(customerId, session)) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
     const validated = createAssetSchema.parse(data)
