@@ -120,6 +120,7 @@ function AlertIcon({ icon, className }: { icon: string; className?: string }) {
 }
 
 type Side = 'left' | 'right'
+type VerticalPos = 'middle' | 'bottom'
 
 function AlertCard({
   alert: a,
@@ -227,17 +228,23 @@ export function HeroAlerts() {
 
   const alert = ALERTS[currentIndex]
   const showPhase = phase === 'gap' ? 'exiting' : phase
-  // Alternate left/right by index: 0=right, 1=left, 2=right, 3=left, 4=right
-  const side: Side = currentIndex % 2 === 0 ? 'right' : 'left'
+  // Cycle: middle-right, bottom-left, middle-left, bottom-right (no top)
+  const posIndex = currentIndex % 4
+  const side: Side = posIndex === 0 || posIndex === 3 ? 'right' : 'left'
+  const vertical: VerticalPos = posIndex <= 1 ? 'middle' : 'bottom'
 
-  const positionClasses =
+  const verticalClasses =
+    vertical === 'middle'
+      ? 'top-1/2 -translate-y-1/2'
+      : 'bottom-6 md:bottom-8'
+  const horizontalClasses =
     side === 'right'
       ? 'left-4 right-4 md:left-auto md:right-6 md:max-w-[280px]'
       : 'left-4 right-4 md:right-auto md:left-6 md:max-w-[280px]'
 
   return (
     <div
-      className={`absolute top-28 md:top-36 z-20 pointer-events-none min-h-0 ${positionClasses}`}
+      className={`absolute ${verticalClasses} ${horizontalClasses} z-20 pointer-events-none min-h-0`}
       aria-label="Platform alerts (demo)"
     >
       <AlertCard

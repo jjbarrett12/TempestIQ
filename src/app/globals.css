@@ -20,6 +20,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Offset anchor targets so fixed header doesn't cover them */
+#solutions,
+#why-ai,
+#features,
+#safety,
+#pricing,
+#contact {
+  scroll-margin-top: 5rem;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

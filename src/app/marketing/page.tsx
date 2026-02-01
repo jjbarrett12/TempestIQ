@@ -19,8 +19,8 @@ export default function MarketingPage() {
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 rounded-full text-xs font-semibold text-slate-200 mb-8 shadow-sm">
-              <span className="w-2 h-2 bg-sky-400 rounded-full animate-pulse" />
-              AI-Powered Weather Intelligence Platform
+              <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
+              AI-Powered Weather Intelligence Platform for Business
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1] tracking-tight drop-shadow-sm">
               Turn severe weather into
@@ -133,9 +133,10 @@ export default function MarketingPage() {
                     {/* Incoming SMS notification banner - top of screen */}
                     <div className="relative z-10 mx-3 mt-3 rounded-2xl bg-white/95 backdrop-blur-sm shadow-lg border border-gray-200/50 overflow-hidden">
                       <div className="p-3 flex gap-3">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-500 flex items-center justify-center">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center">
                           <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            <circle cx="12" cy="12" r="5" strokeWidth={2} />
+                            <path strokeLinecap="round" strokeWidth={1.5} d="M12 7v10M7 12h10" />
                           </svg>
                         </div>
                         <div className="flex-1 min-w-0">
@@ -144,7 +145,7 @@ export default function MarketingPage() {
                             <span className="text-xs text-gray-500 flex-shrink-0">now</span>
                           </div>
                           <p className="text-xs text-gray-600 mt-0.5 line-clamp-2">
-                            This wind event is 3× stronger than anything in the last 24 months. Wind gusts 55–70 mph expected 6:10–6:40 PM.
+                            This hail event is 3× stronger than anything in the last 24 months. Quarter-size hail (1&quot;+) expected 6:10–6:40 PM. Secure vehicles and move to cover.
                           </p>
                         </div>
                       </div>
@@ -178,7 +179,7 @@ export default function MarketingPage() {
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-white/20 text-sky-200 flex items-center justify-center text-sm font-bold">2</span>
-                  <span><strong className="text-white">Plain language.</strong> No codes or jargon—just &ldquo;55–70 mph winds, 6:10–6:40 PM. Secure loose items now.&rdquo;</span>
+                  <span><strong className="text-white">Plain language.</strong> No codes or jargon—just &ldquo;Quarter-size hail, 6:10–6:40 PM. Secure vehicles and move to cover.&rdquo;</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-white/20 text-sky-200 flex items-center justify-center text-sm font-bold">3</span>
@@ -244,10 +245,10 @@ export default function MarketingPage() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-              Enterprise <span className="text-indigo-600">Features</span>
+              Decision Intelligence, <span className="text-indigo-600">Not Just Alerts</span>
             </h2>
             <p className="text-lg text-gray-600">
-              Interpretation, prioritization, and personalization—not just raw alerts
+              Interpretation, prioritization, and personalization—so teams know exactly where to act, when it matters most.
             </p>
           </div>
 
