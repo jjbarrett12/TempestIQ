@@ -20,7 +20,7 @@ export default function MarketingPage() {
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 rounded-full text-xs font-semibold text-slate-200 mb-8 shadow-sm">
               <span className="w-2 h-2 bg-sky-400 rounded-full animate-pulse" />
-              Weather → Money. For Roofers, Restoration, Solar, Fence &amp; Gutter.
+              AI-Powered Weather Intelligence Platform
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1] tracking-tight drop-shadow-sm">
               Every storm creates demand.
