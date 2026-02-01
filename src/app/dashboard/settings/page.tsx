@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useDashboardCustomer } from '@/lib/dashboard-customer-context'
 import { useTheme } from '@/lib/theme-context'
+import { EnablePush } from '@/components/EnablePush'
 
 type TeamMember = { id: string; email: string; name: string | null }
 
@@ -185,6 +186,12 @@ export default function SettingsPage() {
             </button>
           ))}
         </div>
+      </section>
+
+      {/* Push notifications */}
+      <section className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Push alerts</h2>
+        <EnablePush />
       </section>
 
       {/* Company & logo */}

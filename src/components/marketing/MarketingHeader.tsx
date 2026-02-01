@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { href: '#features', label: 'Features' },
   { href: '#proof', label: 'Proof' },
   { href: '#pricing', label: 'Pricing' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 export function MarketingHeader() {

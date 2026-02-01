@@ -84,7 +84,7 @@ export function MarketingPageContent() {
               and capture opportunity.
             </p>
             <Link
-              href="#contact"
+              href="/contact"
               className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium transition-colors"
             >
               👉 Not seeing your industry? Let&apos;s talk.
@@ -112,7 +112,7 @@ export function MarketingPageContent() {
           </div>
 
           {/* Proof Section */}
-          <div id="proof" className="mt-16 p-8 rounded-2xl border-2 border-indigo-200 bg-indigo-50/50">
+          <div id="proof" className="mt-16 mx-auto max-w-3xl p-8 rounded-2xl border-2 border-indigo-200 bg-indigo-50/50">
             <h3 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
               <span aria-hidden>📋</span> Proof
             </h3>
@@ -520,7 +520,7 @@ export function MarketingPageContent() {
                 </li>
               </ul>
               <Link
-                href="#contact"
+                href="/contact"
                 className="block w-full text-center px-4 py-2.5 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition font-medium text-sm shadow-md"
               >
                 Contact Sales
@@ -593,7 +593,7 @@ export function MarketingPageContent() {
                 <li><a href="/about" className="hover:text-indigo-400 transition-colors">About</a></li>
                 <li><a href="#" className="hover:text-indigo-400 transition-colors">Blog</a></li>
                 <li><a href="#" className="hover:text-indigo-400 transition-colors">Careers</a></li>
-                <li><a href="#contact" className="hover:text-indigo-400 transition-colors">Contact</a></li>
+                <li><a href="/contact" className="hover:text-indigo-400 transition-colors">Contact</a></li>
               </ul>
             </div>
             <div className="min-w-0">
