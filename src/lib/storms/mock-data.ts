@@ -108,7 +108,7 @@ function generateStormEvent(orgId: string, index: number): StormEvent {
         type: 'Polygon',
         coordinates: [buildPolygon(center, radius)],
       },
-      maxHailSizeIn,
+      maxHailSizeIn: maxHailSizeIn ?? undefined,
       maxWindSpeedMph,
       impactedNeighborhoods: Array.from({ length: Math.floor(rand(3, 6)) }).map(() => pick(NEIGHBORHOODS)),
     }
