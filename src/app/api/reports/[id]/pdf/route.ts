@@ -24,7 +24,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   }
 
   const pdfBuffer = await renderToBuffer(
-    React.createElement(StormReportDocument, { report, event })
+    React.createElement(StormReportDocument, { report, event }) as React.ReactElement
   )
 
   return new NextResponse(pdfBuffer, {
