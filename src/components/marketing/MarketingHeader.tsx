@@ -18,14 +18,14 @@ export function MarketingHeader() {
 
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-b-2 border-indigo-100 z-50 shadow-sm">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center max-w-7xl">
+      <div className="container mx-auto px-6 py-3 flex justify-between items-center max-w-7xl">
         <Link href="/" className="flex items-center gap-3 shrink-0" onClick={() => setMobileOpen(false)}>
           <Image
             src="/TempestIQ%20logo%20transparent.png"
             alt="TempestIQ"
             width={1300}
             height={360}
-            className="h-[62.5rem] w-auto object-contain md:h-[75rem] max-h-[80vh]"
+            className="h-10 w-auto object-contain md:h-12"
             priority
             unoptimized
           />
