@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { authOptions } from '@/lib/auth'
 
 function authConfigError(): NextResponse {
@@ -16,8 +16,8 @@ function authConfigError(): NextResponse {
 const handler = NextAuth(authOptions)
 
 async function wrappedGet(
-  req: Request,
-  context: { params: Promise<Record<string, string>> }
+  req: NextRequest,
+  context: { params: Promise<{ nextauth: string[] }> }
 ) {
   if (!process.env.NEXTAUTH_SECRET?.trim() || !process.env.NEXTAUTH_URL?.trim())
     return authConfigError()
@@ -25,8 +25,8 @@ async function wrappedGet(
 }
 
 async function wrappedPost(
-  req: Request,
-  context: { params: Promise<Record<string, string>> }
+  req: NextRequest,
+  context: { params: Promise<{ nextauth: string[] }> }
 ) {
   if (!process.env.NEXTAUTH_SECRET?.trim() || !process.env.NEXTAUTH_URL?.trim())
     return authConfigError()
