@@ -17,9 +17,9 @@ export function MarketingHeader() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-b-2 border-indigo-100 z-50 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-b-2 border-indigo-100 z-50 shadow-sm overflow-visible">
       <div className="container mx-auto px-6 py-3 flex justify-between items-center max-w-7xl">
-        <Link href="/" className="flex items-center gap-3 shrink-0" onClick={() => setMobileOpen(false)}>
+        <Link href="/" className="flex items-center shrink-0 origin-left scale-[2]" onClick={() => setMobileOpen(false)}>
           <Image
             src="/TempestIQ%20logo%20transparent.png"
             alt="TempestIQ"
