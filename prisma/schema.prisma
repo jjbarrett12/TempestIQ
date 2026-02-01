@@ -17,6 +17,7 @@ model Customer {
   email       String   @unique
   phone       String?
   company     String?
+  logoUrl     String?  // Company logo URL (dashboard header, reports)
   // Billing: plan tier and Stripe IDs for self-serve subscriptions
   planTier    String?  // STARTER | PROFESSIONAL | BUSINESS | ENTERPRISE
   stripeCustomerId    String?
@@ -32,8 +33,21 @@ model Customer {
   leads       Lead[]
   proposals   Proposal[]
   followUpCadences FollowUpCadence[]
+  teamMembers TeamMember[]
 
   @@index([email])
+}
+
+model TeamMember {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  email      String
+  name       String?
+  createdAt  DateTime @default(now())
+
+  @@unique([customerId, email])
+  @@index([customerId])
 }
 
 model User {

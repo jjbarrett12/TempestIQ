@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useSession } from 'next-auth/react'
 
 interface UsageRecord {
   customerId: string
@@ -16,10 +17,16 @@ interface UsageRecord {
 }
 
 export default function AdminPage() {
+  const { data: session, status } = useSession()
   const [usage, setUsage] = useState<UsageRecord[]>([])
   const [loading, setLoading] = useState(true)
 
+  const role = (session?.user as { role?: string } | undefined)?.role
+  const isAdmin = role === 'ADMIN'
+
   useEffect(() => {
+    if (!isAdmin && status !== 'loading') return
+    if (!isAdmin) return
     fetch('/api/admin/usage?days=30')
       .then(res => res.json())
       .then(data => {
@@ -30,7 +37,41 @@ export default function AdminPage() {
         console.error('Failed to fetch usage:', err)
         setLoading(false)
       })
-  }, [])
+  }, [isAdmin, status])
+
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-600">Loading...</p>
+      </div>
+    )
+  }
+
+  if (!session?.user) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-700 font-medium mb-4">You must sign in to access the admin portal.</p>
+          <Link href="/signin?callbackUrl=/admin" className="text-indigo-600 hover:text-indigo-800 font-medium">
+            Sign in →
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-700 font-medium mb-4">Admin access required.</p>
+          <Link href="/dashboard" className="text-indigo-600 hover:text-indigo-800 font-medium">
+            Back to dashboard →
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

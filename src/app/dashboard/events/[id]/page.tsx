@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { use, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { MapView } from '@/components/map/MapView'
 import type { MapPolygon } from '@/components/map/MapView'
@@ -44,22 +44,25 @@ function toMapPolygons(polygons: StormPolygon[]) {
   return polygons.map((polygon) => polygon.geojson.coordinates as MapPolygon)
 }
 
-export default function StormDetailPage({ params }: { params: { id: string } }) {
+export default function StormDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   const [event, setEvent] = useState<StormEvent | null>(null)
   const [loading, setLoading] = useState(true)
   const [selectedPolygonId, setSelectedPolygonId] = useState<string | null>(null)
   const [showHail, setShowHail] = useState(true)
   const [showWind, setShowWind] = useState(true)
+  const [emailingTeam, setEmailingTeam] = useState(false)
+  const [emailTeamMessage, setEmailTeamMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
   useEffect(() => {
-    fetch(`/api/storm-events/${params.id}`)
+    fetch(`/api/storm-events/${id}`)
       .then((r) => r.ok ? r.json() : { event: null })
       .then((data) => {
         setEvent(data.event || null)
         setLoading(false)
       })
       .catch(() => setLoading(false))
-  }, [params.id])
+  }, [id])
 
   const selectedPolygon = useMemo(
     () => event?.polygons.find((polygon) => polygon.id === selectedPolygonId) ?? null,
@@ -106,13 +109,56 @@ export default function StormDetailPage({ params }: { params: { id: string } }) 
             Impact window: {startDate.toLocaleString()} – {endDate.toLocaleString()}
           </p>
         </div>
-        <Link
-          href={`/dashboard/reports/new?stormId=${event.id}`}
-          className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700"
-        >
-          Generate Verification Report
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <button
+            type="button"
+            disabled={emailingTeam}
+            onClick={async () => {
+              setEmailTeamMessage(null)
+              setEmailingTeam(true)
+              try {
+                const res = await fetch(`/api/storm-events/${event.id}/email-team`, { method: 'POST' })
+                const data = await res.json().catch(() => ({}))
+                if (res.ok && data.sent !== undefined) {
+                  setEmailTeamMessage({
+                    type: 'success',
+                    text: data.message || `Sent to ${data.sent} team member(s).`,
+                  })
+                } else {
+                  setEmailTeamMessage({
+                    type: 'error',
+                    text: data.error || 'Failed to send. Add team members in Settings.',
+                  })
+                }
+              } catch {
+                setEmailTeamMessage({ type: 'error', text: 'Failed to send.' })
+              } finally {
+                setEmailingTeam(false)
+              }
+            }}
+            className="px-4 py-2 rounded-lg border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 text-sm font-medium disabled:opacity-50"
+          >
+            {emailingTeam ? 'Sending…' : 'Email team'}
+          </button>
+          <Link
+            href={`/dashboard/reports/new?stormId=${event.id}`}
+            className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700"
+          >
+            Generate Verification Report
+          </Link>
+        </div>
       </div>
+
+      {emailTeamMessage && (
+        <div
+          className={`p-4 rounded-xl text-sm ${
+            emailTeamMessage.type === 'success' ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-700'
+          }`}
+          role="alert"
+        >
+          {emailTeamMessage.text}
+        </div>
+      )}
 
       <div className="grid lg:grid-cols-[2.2fr_1fr] gap-6">
         <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">

@@ -597,52 +597,52 @@ export default function MarketingPage() {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="bg-gradient-to-b from-slate-900 via-indigo-950/90 to-slate-900 text-slate-300 py-16 px-6 border-t border-indigo-500/20">
+      <footer id="contact" className="bg-gradient-to-b from-slate-900 via-indigo-950/90 to-slate-900 text-slate-300 py-12 px-6 border-t border-indigo-500/20">
         <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
-            <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-10">
+            <div className="min-w-0">
               <div className="flex items-center gap-3 mb-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/TempestIQ logo transparent.png"
                   alt="TempestIQ"
-                  className="h-[320px] w-auto object-contain"
+                  className="h-10 w-auto object-contain shrink-0"
                 />
-                <span className="text-white font-semibold text-lg">TempestIQ</span>
+                <span className="text-white font-semibold text-lg shrink-0">TempestIQ</span>
               </div>
-              <p className="text-sm text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
                 Turn severe weather events into qualified leads for roofing companies and insurance agencies.
               </p>
             </div>
-            <div>
-              <h4 className="text-white font-semibold mb-4 text-sm">Product</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#solutions" className="text-slate-300 hover:text-indigo-400 transition">Industries Served</a></li>
-                <li><a href="#why-ai" className="text-slate-300 hover:text-indigo-400 transition">Why AI</a></li>
-                <li><a href="#features" className="text-slate-300 hover:text-indigo-400 transition">Features</a></li>
-                <li><a href="#pricing" className="text-slate-300 hover:text-indigo-400 transition">Pricing</a></li>
-                <li><a href="#" className="text-slate-300 hover:text-indigo-400 transition">API Docs</a></li>
+            <div className="min-w-0">
+              <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Product</h4>
+              <ul className="space-y-2.5 text-sm text-slate-300">
+                <li><a href="#solutions" className="hover:text-indigo-400 transition-colors">Industries Served</a></li>
+                <li><a href="#why-ai" className="hover:text-indigo-400 transition-colors">Why AI</a></li>
+                <li><a href="#features" className="hover:text-indigo-400 transition-colors">Features</a></li>
+                <li><a href="#pricing" className="hover:text-indigo-400 transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-indigo-400 transition-colors">API Docs</a></li>
               </ul>
             </div>
-            <div>
-              <h4 className="text-white font-semibold mb-4 text-sm">Company</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-slate-300 hover:text-indigo-400 transition">About</a></li>
-                <li><a href="#" className="text-slate-300 hover:text-indigo-400 transition">Blog</a></li>
-                <li><a href="#" className="text-slate-300 hover:text-indigo-400 transition">Careers</a></li>
-                <li><a href="#contact" className="text-slate-300 hover:text-indigo-400 transition">Contact</a></li>
+            <div className="min-w-0">
+              <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Company</h4>
+              <ul className="space-y-2.5 text-sm text-slate-300">
+                <li><a href="#" className="hover:text-indigo-400 transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-indigo-400 transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-indigo-400 transition-colors">Careers</a></li>
+                <li><a href="#contact" className="hover:text-indigo-400 transition-colors">Contact</a></li>
               </ul>
             </div>
-            <div>
-              <h4 className="text-white font-semibold mb-4 text-sm">Contact</h4>
-              <ul className="space-y-2 text-sm">
+            <div className="min-w-0">
+              <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Contact</h4>
+              <ul className="space-y-2.5 text-sm text-slate-300">
                 <li>
-                  <a href="mailto:sales@tempestiq.com" className="text-slate-300 hover:text-indigo-400 transition">
+                  <a href="mailto:sales@tempestiq.com" className="hover:text-indigo-400 transition-colors break-all">
                     sales@tempestiq.com
                   </a>
                 </li>
                 <li>
-                  <a href="tel:+15551234567" className="text-slate-300 hover:text-indigo-400 transition">
+                  <a href="tel:+15551234567" className="hover:text-indigo-400 transition-colors">
                     (555) 123-4567
                   </a>
                 </li>
@@ -650,8 +650,8 @@ export default function MarketingPage() {
               </ul>
             </div>
           </div>
-          <div className="border-t border-slate-700/50 pt-8 text-center text-sm text-slate-500">
-            <p>&copy; {new Date().getFullYear()} TempestIQ. All rights reserved.</p>
+          <div className="border-t border-slate-700/50 pt-6 text-center">
+            <p className="text-sm text-slate-400">&copy; {new Date().getFullYear()} TempestIQ. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -66,7 +66,7 @@ export function GeocodeSearch({ onSelect, placeholder = 'Search address…', cla
         onChange={handleChange}
         onFocus={() => query && search(query)}
         placeholder={placeholder}
-        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-600 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
       />
       {loading && (
         <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
@@ -80,7 +80,7 @@ export function GeocodeSearch({ onSelect, placeholder = 'Search address…', cla
               <button
                 type="button"
                 onClick={() => handleSelect(r)}
-                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-indigo-50"
+                className="w-full text-left px-3 py-2 text-sm text-gray-800 hover:bg-indigo-50"
               >
                 {r.displayName}
               </button>

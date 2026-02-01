@@ -65,24 +65,24 @@ export default function NewLeadPage() {
             <div className="p-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</div>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-            <input name="name" type="text" required className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500" placeholder="John Smith" />
+            <label className="block text-sm font-medium text-gray-800 mb-1">Name *</label>
+            <input name="name" type="text" required className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500" placeholder="John Smith" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Company</label>
-            <input name="company" type="text" className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500" placeholder="Acme Corp" />
+            <label className="block text-sm font-medium text-gray-800 mb-1">Company</label>
+            <input name="company" type="text" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500" placeholder="Acme Corp" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input name="email" type="email" className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500" placeholder="john@acme.com" />
+            <label className="block text-sm font-medium text-gray-800 mb-1">Email</label>
+            <input name="email" type="email" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500" placeholder="john@acme.com" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-            <input name="phone" type="tel" className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500" placeholder="+1 555 000 0000" />
+            <label className="block text-sm font-medium text-gray-800 mb-1">Phone</label>
+            <input name="phone" type="tel" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500" placeholder="+1 555 000 0000" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Source</label>
-            <input name="source" type="text" className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500" placeholder="Website, referral, event..." />
+            <label className="block text-sm font-medium text-gray-800 mb-1">Source</label>
+            <input name="source" type="text" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500" placeholder="Website, referral, event..." />
           </div>
           <div className="flex gap-3 pt-2">
             <button

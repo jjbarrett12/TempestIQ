@@ -60,7 +60,7 @@ export default function NewAssetPage() {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow">
         <div className="container mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold">Add New Location</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Add New Location</h1>
         </div>
       </header>
 
@@ -72,27 +72,27 @@ export default function NewAssetPage() {
         </div>
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-800 mb-1">
               Location Name
             </label>
             <input
               type="text"
               name="name"
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-600"
               placeholder="e.g., Main Office"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-800 mb-1">
               Search address (fills coordinates)
             </label>
             <GeocodeSearch onSelect={handleGeocodeSelect} placeholder="Type address to search…" className="mb-2" />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-800 mb-1">
               Address
             </label>
             <input
@@ -101,15 +101,15 @@ export default function NewAssetPage() {
               required
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-600"
               placeholder="123 Main St, City, State ZIP"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Latitude
+<label className="block text-sm font-medium text-gray-800 mb-1">
+              Latitude
               </label>
               <input
                 type="number"
@@ -118,12 +118,12 @@ export default function NewAssetPage() {
                 step="any"
                 value={latitude}
                 onChange={(e) => setLatitude(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-600"
                 placeholder="40.7128"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Longitude
               </label>
               <input
@@ -133,7 +133,7 @@ export default function NewAssetPage() {
                 step="any"
                 value={longitude}
                 onChange={(e) => setLongitude(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-600"
                 placeholder="-74.0060"
               />
             </div>
@@ -155,13 +155,13 @@ export default function NewAssetPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-800 mb-1">
               Timezone
             </label>
             <select
               name="timezone"
               defaultValue="America/New_York"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900"
             >
               <option value="America/New_York">Eastern Time</option>
               <option value="America/Chicago">Central Time</option>

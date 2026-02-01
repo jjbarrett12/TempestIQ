@@ -13,18 +13,24 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-          include: { customer: true },
-        })
-        if (!user?.passwordHash) return null
-        const ok = await bcrypt.compare(credentials.password, user.passwordHash)
-        if (!ok) return null
-        return {
-          id: user.id,
-          email: user.email,
-          customerId: user.customerId ?? undefined,
-          name: user.customer?.name ?? undefined,
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+            include: { customer: true },
+          })
+          if (!user?.passwordHash) return null
+          const ok = await bcrypt.compare(credentials.password, user.passwordHash)
+          if (!ok) return null
+          return {
+            id: user.id,
+            email: user.email,
+            customerId: user.customerId ?? undefined,
+            name: user.customer?.name ?? undefined,
+            role: user.role,
+          }
+        } catch (err) {
+          console.error('[auth] authorize error:', err)
+          throw err
         }
       },
     }),
@@ -34,6 +40,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.customerId = user.customerId
         token.sub = user.id
+        token.role = user.role
       }
       return token
     },
@@ -42,6 +49,7 @@ export const authOptions: NextAuthOptions = {
         (session.user as { id?: string }).id = token.sub ?? undefined
         const customerId = token.customerId
         ;(session.user as { customerId?: string }).customerId = typeof customerId === 'string' ? customerId : undefined
+        ;(session.user as { role?: string }).role = typeof token.role === 'string' ? token.role : undefined
       }
       return session
     },

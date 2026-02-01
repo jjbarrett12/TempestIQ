@@ -19,6 +19,8 @@
     "worker:all": "tsx scripts/start-workers.ts",
     "scheduler:init": "tsx scripts/init-scheduler.ts",
     "db:seed": "tsx scripts/create-test-customer.ts",
+    "reset-demo-password": "tsx scripts/reset-demo-password.ts",
+    "create-admin": "tsx scripts/create-admin.ts",
     "seed:storms": "tsx scripts/seed-storms.ts",
     "test:apis": "tsx scripts/test-api-connections.ts",
     "validate:env": "tsx scripts/validate-env.ts",

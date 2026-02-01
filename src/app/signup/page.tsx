@@ -204,7 +204,7 @@ function SignupForm() {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="Jane Smith"
               />
             </div>
@@ -215,7 +215,7 @@ function SignupForm() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="jane@company.com"
               />
             </div>
@@ -227,7 +227,7 @@ function SignupForm() {
                 minLength={8}
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="At least 8 characters"
               />
               {formData.password.length > 0 && (
@@ -269,32 +269,32 @@ function SignupForm() {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Company (optional)</label>
+              <label className="block text-sm font-medium text-gray-900 mb-1">Company (optional)</label>
               <input
                 type="text"
                 value={formData.company}
                 onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="Acme Roofing"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Phone (optional)</label>
+              <label className="block text-sm font-medium text-gray-900 mb-1">Phone (optional)</label>
               <input
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="+1 (555) 000-0000"
               />
             </div>
 
             <div className="pt-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Plan</label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">Plan</label>
               <select
                 value={formData.plan}
                 onChange={(e) => setFormData({ ...formData, plan: e.target.value as PlanId })}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               >
                 <option value={PLAN_IDS.STARTER}>Starter — $79/mo</option>
                 <option value={PLAN_IDS.PROFESSIONAL}>Professional — $199/mo</option>
@@ -318,11 +318,11 @@ function SignupForm() {
             </button>
           </form>
 
-          <p className="mt-4 text-xs text-gray-500 text-center">
+          <p className="mt-4 text-xs text-gray-700 text-center">
             By signing up you agree to our Terms of Service and Privacy Policy. Payment is processed securely by Stripe.
           </p>
 
-          <p className="mt-6 text-center text-sm text-gray-600">
+          <p className="mt-6 text-center text-sm text-gray-800">
             Already have an account?{' '}
             <Link href="/signin" className="text-indigo-600 hover:underline font-medium">
               Sign in

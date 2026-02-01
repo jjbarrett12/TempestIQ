@@ -132,3 +132,63 @@ export function formatAlertEmail(event: {
     html,
   }
 }
+
+/** Storm summary for "Email team" from dashboard (storm event shape from API). */
+export function formatStormSummaryEmail(event: {
+  id: string
+  type: string
+  startTime: string
+  endTime: string
+  severityScore: number
+  maxHailSizeIn: number | null
+  maxWindSpeedMph: number | null
+  impactedAreaCount: number
+  polygons?: { impactedNeighborhoods: string[] }[]
+}): { subject: string; html: string } {
+  const typeName = event.type === 'hail' ? 'Hail' : 'Wind'
+  const startStr = new Date(event.startTime).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })
+  const endStr = new Date(event.endTime).toLocaleString('en-US', { timeStyle: 'short' })
+  const neighborhoods = event.polygons?.flatMap((p) => p.impactedNeighborhoods) ?? []
+  const uniqueNeighborhoods = [...new Set(neighborhoods)].slice(0, 15)
+  const dashboardUrl = `${process.env.NEXTAUTH_URL || 'https://tempestiq.com'}/dashboard/events/${event.id}`
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #4f46e5; color: white; padding: 16px 20px; border-radius: 8px; margin-bottom: 20px; }
+        .header h1 { margin: 0; font-size: 20px; }
+        .details { background: #f8f9fa; padding: 16px; border-radius: 8px; margin-bottom: 16px; }
+        .row { margin: 8px 0; }
+        .label { font-weight: bold; color: #555; }
+        .neighborhoods { font-size: 14px; color: #666; }
+        .button { display: inline-block; padding: 12px 24px; background: #4f46e5; color: white; text-decoration: none; border-radius: 6px; margin-top: 16px; font-weight: 600; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>⛈️ ${typeName} storm impact summary</h1>
+        </div>
+        <div class="details">
+          <div class="row"><span class="label">Impact window:</span> ${startStr} – ${endStr}</div>
+          <div class="row"><span class="label">Severity score:</span> ${event.severityScore}</div>
+          <div class="row"><span class="label">Max hail size:</span> ${event.maxHailSizeIn != null ? `${event.maxHailSizeIn}"` : 'N/A'}</div>
+          <div class="row"><span class="label">Max wind speed:</span> ${event.maxWindSpeedMph != null ? `${event.maxWindSpeedMph} mph` : 'N/A'}</div>
+          <div class="row"><span class="label">Impacted areas:</span> ${event.impactedAreaCount}</div>
+          ${uniqueNeighborhoods.length > 0 ? `<div class="row neighborhoods"><span class="label">Sample neighborhoods:</span> ${uniqueNeighborhoods.join(', ')}</div>` : ''}
+        </div>
+        <a href="${dashboardUrl}" class="button">View full storm detail</a>
+      </div>
+    </body>
+    </html>
+  `
+  return {
+    subject: `Storm summary: ${typeName} impact ${startStr}`,
+    html,
+  }
+}

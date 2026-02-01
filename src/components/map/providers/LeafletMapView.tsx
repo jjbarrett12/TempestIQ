@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useEffect } from 'react'
+import { useMemo, useRef, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import {
   MapContainer,
@@ -111,6 +111,13 @@ const MarkerClusterGroup = dynamic(
   { ssr: false }
 )
 
+// Unique key per mount so Leaflet never sees "container already initialized" (React Strict Mode double-mount)
+let mapContainerId = 0
+function useMapContainerKey() {
+  const [key] = useState(() => ++mapContainerId)
+  return key
+}
+
 /**
  * Leaflet implementation of the shared map contract.
  * Supports: clustering, print, layer control, custom markers, fullscreen.
@@ -129,6 +136,7 @@ export function LeafletMapView({
   showLayerControl = interactive,
   showFullscreenControl = false,
 }: MapViewProps) {
+  const containerKey = useMapContainerKey()
   const position: [number, number] = useMemo(() => [center.lat, center.lng], [center.lat, center.lng])
 
   const markerElements = markers.map((m) => {
@@ -141,7 +149,7 @@ export function LeafletMapView({
   })
 
   return (
-    <div className={className} style={{ height }}>
+    <div key={containerKey} className={className} style={{ height }}>
       <MapContainer
         center={position}
         zoom={zoom}

@@ -17,12 +17,12 @@ const requiredVars = [
   'TWILIO_PHONE_NUMBER',
   'SENDGRID_API_KEY',
   'REDIS_URL',
+  'NEXTAUTH_SECRET',
+  'NEXTAUTH_URL',
 ]
 
 const optionalVars = [
   'SENDGRID_FROM_EMAIL',
-  'NEXTAUTH_SECRET',
-  'NEXTAUTH_URL',
 ]
 
 function validateEnv() {

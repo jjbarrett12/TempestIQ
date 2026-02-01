@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
+import { authOptions } from '@/lib/auth'
+import { z } from 'zod'
 
-const DB_TIMEOUT_MS = 5000 // fail fast so dashboard doesn't hang
+const DB_TIMEOUT_MS = 5000
 
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([
@@ -10,6 +13,13 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
       setTimeout(() => reject(new Error('timeout')), ms)
     ),
   ])
+}
+
+function canAccessCustomer(customerId: string, session: { user?: { customerId?: string; role?: string } } | null): boolean {
+  if (!session?.user) return false
+  const role = (session.user as { role?: string }).role
+  if (role === 'ADMIN') return true
+  return session.user.customerId === customerId
 }
 
 export async function GET(
@@ -27,6 +37,7 @@ export async function GET(
           name: true,
           email: true,
           company: true,
+          logoUrl: true,
           planTier: true,
         },
       }),
@@ -47,5 +58,55 @@ export async function GET(
     const message = error?.message === 'timeout' ? 'Service temporarily unavailable' : error?.message
     const status = error?.message === 'timeout' ? 503 : 500
     return NextResponse.json({ error: message }, { status })
+  }
+}
+
+const updateCustomerSchema = z.object({
+  company: z.string().optional(),
+  logoUrl: z
+    .string()
+    .optional()
+    .nullable()
+    .refine(
+      (v) =>
+        !v ||
+        v.startsWith('http://') ||
+        v.startsWith('https://') ||
+        (v.startsWith('data:') && v.includes('image/')),
+      { message: 'Logo must be a URL or image data (e.g. from file upload)' }
+    ),
+})
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const session = await getServerSession(authOptions)
+    const { id } = await params
+    if (!canAccessCustomer(id, session)) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+
+    const body = await request.json()
+    const data = updateCustomerSchema.parse(body)
+
+    const customer = await prisma.customer.update({
+      where: { id },
+      data: {
+        ...(data.company !== undefined && { company: data.company }),
+        ...(data.logoUrl !== undefined && { logoUrl: data.logoUrl }),
+      },
+      select: { id: true, name: true, email: true, company: true, logoUrl: true, planTier: true },
+    })
+
+    return NextResponse.json({
+      customer: { ...customer, plan: customer.planTier?.toLowerCase() ?? null },
+    })
+  } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: error.errors[0]?.message }, { status: 400 })
+    }
+    return NextResponse.json({ error: error?.message || 'Update failed' }, { status: 500 })
   }
 }

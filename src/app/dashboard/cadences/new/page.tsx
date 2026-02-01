@@ -53,21 +53,21 @@ export default function NewCadencePage() {
             <div className="p-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</div>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+            <label className="block text-sm font-medium text-gray-800 mb-1">Name *</label>
             <input
               name="name"
               type="text"
               required
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500"
               placeholder="e.g. Post-event follow-up"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Description (optional)</label>
+            <label className="block text-sm font-medium text-gray-800 mb-1">Description (optional)</label>
             <input
               name="description"
               type="text"
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500"
               placeholder="When to use this cadence"
             />
           </div>

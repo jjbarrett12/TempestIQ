@@ -23,9 +23,9 @@ export function MarketingHeader() {
           <Image
             src="/TempestIQ%20logo%20transparent.png"
             alt="TempestIQ"
-            width={260}
-            height={72}
-            className="h-10 w-auto object-contain md:h-12"
+            width={1300}
+            height={360}
+            className="h-[12.5rem] w-auto object-contain md:h-[15rem]"
             priority
             unoptimized
           />

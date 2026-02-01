@@ -8,3 +8,13 @@ export async function requireOrgContext() {
   const userId = (session?.user as { id?: string } | undefined)?.id ?? null
   return { orgId, userId, isDemo: !session?.user?.customerId }
 }
+
+/** Throws if not signed in or not ADMIN. Use in API routes. */
+export async function requireAdmin() {
+  const session = await getServerSession(authOptions)
+  const role = (session?.user as { role?: string } | undefined)?.role
+  if (!session?.user || role !== 'ADMIN') {
+    throw new Error('Admin access required')
+  }
+  return session
+}

@@ -69,11 +69,11 @@ export default function NewProposalPage() {
             <div className="p-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</div>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Lead (optional)</label>
+            <label className="block text-sm font-medium text-gray-800 mb-1">Lead (optional)</label>
             <select
               name="leadId"
               defaultValue={preselectedLeadId || ''}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:ring-2 focus:ring-indigo-500"
             >
               <option value="">— None —</option>
               {leads.map((l) => (
@@ -82,22 +82,22 @@ export default function NewProposalPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+            <label className="block text-sm font-medium text-gray-800 mb-1">Title *</label>
             <input
               name="title"
               type="text"
               required
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500"
               placeholder="TempestIQ — Professional plan"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Content *</label>
+            <label className="block text-sm font-medium text-gray-800 mb-1">Content *</label>
             <textarea
               name="body"
               rows={12}
               required
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
               placeholder="Paste or write your proposal content (plain text or markdown)..."
             />
           </div>
