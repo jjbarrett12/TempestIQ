@@ -23,13 +23,10 @@ export function MarketingPageContent() {
               AI-Powered Weather Intelligence Platform for Business
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1] tracking-tight drop-shadow-sm">
-              Turn severe weather into
-              <span className="block mt-2 bg-gradient-to-r from-sky-300 via-indigo-200 to-purple-200 bg-clip-text text-transparent">
-                actionable revenue intelligence.
-              </span>
+              Be First to the Storm
             </h1>
             <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
-              TempestIQ combines real-time alerts, impact scoring, and automated workflows to help teams act faster, target smarter, and win more jobs.
+              AI-powered, hyper-local severe weather intelligence that tells you exactly when and where to act.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link
@@ -112,7 +109,8 @@ export function MarketingPageContent() {
           </div>
 
           {/* Proof Section */}
-          <div id="proof" className="mt-16 mx-auto max-w-3xl p-8 rounded-2xl border-2 border-indigo-200 bg-indigo-50/50">
+          <div className="mt-16 flex justify-center w-full">
+            <div id="proof" className="w-full max-w-3xl p-8 rounded-2xl border-2 border-indigo-200 bg-indigo-50/50">
             <h3 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
               <span aria-hidden>📋</span> Proof
             </h3>
@@ -122,6 +120,7 @@ export function MarketingPageContent() {
             <p className="text-sm text-gray-600">
               Roofers, restoration companies, and claims teams use TempestIQ proof to accelerate approvals and win more jobs.
             </p>
+            </div>
           </div>
         </div>
       </section>
@@ -590,10 +589,10 @@ export function MarketingPageContent() {
             <div className="min-w-0">
               <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Company</h4>
               <ul className="space-y-2.5 text-sm text-slate-300">
-                <li><a href="/about" className="hover:text-indigo-400 transition-colors">About</a></li>
+                <li><Link href="/about" className="hover:text-indigo-400 transition-colors">About</Link></li>
                 <li><a href="#" className="hover:text-indigo-400 transition-colors">Blog</a></li>
                 <li><a href="#" className="hover:text-indigo-400 transition-colors">Careers</a></li>
-                <li><a href="/contact" className="hover:text-indigo-400 transition-colors">Contact</a></li>
+                <li><Link href="/contact" className="hover:text-indigo-400 transition-colors">Contact</Link></li>
               </ul>
             </div>
             <div className="min-w-0">

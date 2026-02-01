@@ -31,15 +31,25 @@ export function MarketingHeader() {
           />
         </Link>
         <nav className="hidden md:flex gap-8 items-center">
-          {NAV_LINKS.map(({ href, label }) => (
-            <a
-              key={href}
-              href={href}
-              className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors"
-            >
-              {label}
-            </a>
-          ))}
+          {NAV_LINKS.map(({ href, label }) =>
+            href.startsWith('/') ? (
+              <Link
+                key={href}
+                href={href}
+                className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors"
+              >
+                {label}
+              </Link>
+            ) : (
+              <a
+                key={href}
+                href={href}
+                className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors"
+              >
+                {label}
+              </a>
+            )
+          )}
         </nav>
         <div className="flex gap-3 items-center">
           <Link
@@ -78,16 +88,27 @@ export function MarketingHeader() {
       {mobileOpen && (
         <div className="md:hidden border-t border-indigo-100 bg-white">
           <nav className="container mx-auto px-6 py-4 flex flex-col gap-1 max-w-7xl">
-            {NAV_LINKS.map(({ href, label }) => (
-              <a
-                key={href}
-                href={href}
-                onClick={() => setMobileOpen(false)}
-                className="px-4 py-3 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition-colors"
-              >
-                {label}
-              </a>
-            ))}
+            {NAV_LINKS.map(({ href, label }) =>
+              href.startsWith('/') ? (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setMobileOpen(false)}
+                  className="px-4 py-3 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition-colors"
+                >
+                  {label}
+                </Link>
+              ) : (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={() => setMobileOpen(false)}
+                  className="px-4 py-3 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition-colors"
+                >
+                  {label}
+                </a>
+              )
+            )}
             <div className="flex flex-col gap-2 pt-4 mt-2 border-t border-gray-100">
               <Link
                 href="/signin"
