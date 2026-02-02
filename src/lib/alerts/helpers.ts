@@ -41,11 +41,11 @@ export type EventForGrouping = {
 }
 
 /** Group events by (type, location key) within last X hours. Returns grouped with primary + update count. */
-export function groupEvents(
-  events: EventForGrouping[],
+export function groupEvents<T extends EventForGrouping>(
+  events: T[],
   windowHours = 24
 ): Array<{
-  primary: EventForGrouping
+  primary: T
   updates: number
   severityIncreased: boolean
 }> {
