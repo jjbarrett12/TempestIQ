@@ -23,7 +23,7 @@ export class MapErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error) {
-    console.warn('[MapErrorBoundary]', error.message)
+    console.warn('[MapErrorBoundary]', error.message, error.stack)
   }
 
   render() {

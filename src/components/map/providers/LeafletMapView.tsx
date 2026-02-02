@@ -127,20 +127,6 @@ function MapControls({
   return null
 }
 
-/** Detect dark mode from DOM (avoids useTheme which can throw outside ThemeProvider) */
-function useIsDark(): boolean {
-  const [isDark, setIsDark] = useState(false)
-  useEffect(() => {
-    if (typeof document === 'undefined') return
-    const check = () => document.documentElement.classList.contains('dark')
-    setIsDark(check())
-    const observer = new MutationObserver(() => setIsDark(check()))
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
-    return () => observer.disconnect()
-  }, [])
-  return isDark
-}
-
 /** Incrementing counter so each "show" gets a new key (fixes Strict Mode double-mount) */
 let mapInstanceCounter = 0
 
@@ -196,12 +182,13 @@ export function LeafletMapView({
   showFullscreenControl = false,
 }: MapViewProps) {
   const { mounted, mapKey } = useDeferredMapMount()
-  const isDark = useIsDark()
-  const position: [number, number] = useMemo(() => [center.lat, center.lng], [center.lat, center.lng])
+  const position: [number, number] = useMemo(() => {
+    const lat = Number(center.lat)
+    const lng = Number(center.lng)
+    return [Number.isFinite(lat) ? lat : 39.8283, Number.isFinite(lng) ? lng : -98.5795]
+  }, [center.lat, center.lng])
 
-  const streetTiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-  const darkTiles = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
-  const defaultTileUrl = isDark ? darkTiles : streetTiles
+  const osmTiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 
   const markerElements = markers.map((m) => {
     const icon = getIconForMarker(m)
@@ -241,16 +228,10 @@ export function LeafletMapView({
       >
         {showLayerControl ? (
           <LayersControl position="topright">
-            <BaseLayer checked={!isDark} name="Street">
+            <BaseLayer checked name="Street">
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                url={streetTiles}
-              />
-            </BaseLayer>
-            <BaseLayer checked={isDark} name="Dark">
-              <TileLayer
-                attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-                url={darkTiles}
+                url={osmTiles}
               />
             </BaseLayer>
             <BaseLayer name="Satellite">
@@ -262,8 +243,8 @@ export function LeafletMapView({
           </LayersControl>
         ) : (
           <TileLayer
-            attribution={isDark ? '&copy; CARTO' : '&copy; OpenStreetMap'}
-            url={defaultTileUrl}
+            attribution='&copy; OpenStreetMap'
+            url={osmTiles}
           />
         )}
         {bounds && <FitBounds bounds={bounds} />}
