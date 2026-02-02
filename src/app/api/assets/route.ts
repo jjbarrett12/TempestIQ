@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
+import type { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import { z } from 'zod'
@@ -75,7 +76,7 @@ export async function POST(request: NextRequest) {
         ...validated,
         name,
         customerId,
-        geometry: validated.geometry ?? undefined,
+        geometry: (validated.geometry ?? undefined) as Prisma.InputJsonValue | undefined,
         displayLabel: validated.displayLabel ?? undefined,
       },
     })
