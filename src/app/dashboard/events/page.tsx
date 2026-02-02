@@ -32,7 +32,7 @@ const TYPE_FILTERS = [
   { label: 'Wind', value: 'wind' },
 ]
 
-function formatStormType(type: StormEvent['type']) {
+function formatStormType(type: string) {
   return type === 'hail' ? 'Hail' : 'Wind'
 }
 
