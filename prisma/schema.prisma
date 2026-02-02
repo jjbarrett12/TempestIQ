@@ -365,6 +365,18 @@ enum ProposalStatus {
   DECLINED
 }
 
+model ProposalTemplate {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  name       String
+  body       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([customerId])
+}
+
 model FollowUpCadence {
   id          String   @id @default(cuid())
   customerId  String
