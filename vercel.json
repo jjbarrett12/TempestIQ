@@ -1,6 +1,14 @@
 {
   "crons": [
     {
+      "path": "/api/cron/alert-nws",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/alert-hail-wind",
+      "schedule": "*/10 * * * *"
+    },
+    {
       "path": "/api/cron/xweather-poll",
       "schedule": "0 9 * * *"
     }

@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { randomUUID } from 'crypto'
+import os from 'os'
 
 export type ReportRecord = {
   id: string
@@ -19,19 +20,33 @@ type ReportStore = {
   reports: ReportRecord[]
 }
 
-const STORE_PATH = path.join(process.cwd(), 'data', 'reports.json')
+const PRIMARY_PATH = path.join(process.cwd(), 'data', 'reports.json')
+const FALLBACK_PATH = path.join(os.tmpdir(), 'tempestiq-reports.json')
 
 async function loadStore(): Promise<ReportStore> {
-  try {
-    const raw = await fs.readFile(STORE_PATH, 'utf-8')
-    return JSON.parse(raw) as ReportStore
-  } catch {
-    return { reports: [] }
+  for (const p of [PRIMARY_PATH, FALLBACK_PATH]) {
+    try {
+      const raw = await fs.readFile(p, 'utf-8')
+      return JSON.parse(raw) as ReportStore
+    } catch {
+      continue
+    }
   }
+  return { reports: [] }
 }
 
 async function saveStore(store: ReportStore) {
-  await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2))
+  const json = JSON.stringify(store, null, 2)
+  try {
+    await fs.mkdir(path.dirname(PRIMARY_PATH), { recursive: true })
+    await fs.writeFile(PRIMARY_PATH, json)
+  } catch {
+    try {
+      await fs.writeFile(FALLBACK_PATH, json)
+    } catch {
+      throw new Error('Unable to persist reports. Storage not writable.')
+    }
+  }
 }
 
 export async function listReports(orgId: string) {

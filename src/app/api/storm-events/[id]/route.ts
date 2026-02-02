@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { requireOrgContext } from '@/lib/server-auth'
 import { ensureStormEvents, getStormEvent } from '@/lib/storms/mock-data'
+import { fallbackAiExplanation } from '@/lib/alerts/helpers'
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -12,5 +13,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: 'Storm event not found' }, { status: 404 })
   }
 
-  return NextResponse.json({ event })
+  const enriched = {
+    ...event,
+    ai_explanation: event.ai_explanation || fallbackAiExplanation(event),
+    providers_used: [],
+    confidence: event.confidence ?? 0.75,
+  }
+
+  return NextResponse.json({ event: enriched })
 }

@@ -26,7 +26,7 @@ export function MarketingPageContent() {
               Be First to the Storm
             </h1>
             <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
-              AI-powered, hyper-local severe weather intelligence that tells you exactly when and where to act.
+              TempestIQ offers hyper-local severe weather intelligence that tells you exactly when and where to act.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link
@@ -90,28 +90,44 @@ export function MarketingPageContent() {
 
           {/* Who Uses TempestIQ - 4 cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-            <div className="p-6 rounded-2xl border-2 border-indigo-100 bg-white hover:border-indigo-200 hover:shadow-lg transition-all">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Contractors &amp; Restoration Teams</h3>
-              <p className="text-indigo-600 font-medium">deploy crews faster</p>
+            <div className="p-6 rounded-2xl border-2 border-indigo-100 bg-white hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-500/10 transition-all flex flex-col">
+              <div className="text-3xl mb-3" aria-hidden>🚛</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">Contractors &amp; Restoration</h3>
+              <p className="text-indigo-600 font-semibold text-sm mb-2">Be first on the scene</p>
+              <p className="text-sm text-gray-600 leading-relaxed mt-auto">
+                Get AI-interpreted alerts the moment hail or wind hits—know where damage occurred and deploy crews before competitors.
+              </p>
             </div>
-            <div className="p-6 rounded-2xl border-2 border-purple-100 bg-white hover:border-purple-200 hover:shadow-lg transition-all">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Insurance &amp; Claims Ops</h3>
-              <p className="text-purple-600 font-medium">prioritize inspections</p>
+            <div className="p-6 rounded-2xl border-2 border-purple-100 bg-white hover:border-purple-200 hover:shadow-lg hover:shadow-purple-500/10 transition-all flex flex-col">
+              <div className="text-3xl mb-3" aria-hidden>📋</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">Insurance &amp; Claims</h3>
+              <p className="text-purple-600 font-semibold text-sm mb-2">Triage with confidence</p>
+              <p className="text-sm text-gray-600 leading-relaxed mt-auto">
+                Storm polygons and severity scoring help adjusters prioritize high-impact claims and fast-track legitimate damage.
+              </p>
             </div>
-            <div className="p-6 rounded-2xl border-2 border-cyan-100 bg-white hover:border-cyan-200 hover:shadow-lg transition-all">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Logistics &amp; Field Services</h3>
-              <p className="text-cyan-600 font-medium">reroute assets in real time</p>
+            <div className="p-6 rounded-2xl border-2 border-cyan-100 bg-white hover:border-cyan-200 hover:shadow-lg hover:shadow-cyan-500/10 transition-all flex flex-col">
+              <div className="text-3xl mb-3" aria-hidden>📍</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">Logistics &amp; Field Services</h3>
+              <p className="text-cyan-600 font-semibold text-sm mb-2">Protect people and cargo</p>
+              <p className="text-sm text-gray-600 leading-relaxed mt-auto">
+                Real-time hail, wind, and lightning alerts enable proactive reroutes and delivery rescheduling—before drivers hit danger zones.
+              </p>
             </div>
-            <div className="p-6 rounded-2xl border-2 border-emerald-100 bg-white hover:border-emerald-200 hover:shadow-lg transition-all">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Sales Teams</h3>
-              <p className="text-emerald-600 font-medium">reach customers when demand spikes</p>
+            <div className="p-6 rounded-2xl border-2 border-emerald-100 bg-white hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-500/10 transition-all flex flex-col">
+              <div className="text-3xl mb-3" aria-hidden>📈</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">Sales Teams</h3>
+              <p className="text-emerald-600 font-semibold text-sm mb-2">Strike when demand peaks</p>
+              <p className="text-sm text-gray-600 leading-relaxed mt-auto">
+                Know exactly when and where storms hit—reach homeowners and businesses while they&apos;re actively looking for help.
+              </p>
             </div>
           </div>
 
           {/* Proof Section */}
           <div className="mt-16 flex justify-center w-full">
-            <div id="proof" className="w-full max-w-3xl p-8 rounded-2xl border-2 border-indigo-200 bg-indigo-50/50">
-            <h3 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+            <div id="proof" className="w-full max-w-3xl p-8 rounded-2xl border-2 border-indigo-200 bg-indigo-50/50 text-center">
+            <h3 className="text-2xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-2">
               <span aria-hidden>📋</span> Proof
             </h3>
             <p className="text-gray-700 mb-4">
@@ -136,7 +152,7 @@ export function MarketingPageContent() {
               Why AI Is the Difference Between Alerts and Business Growth
             </h2>
             <p className="text-lg text-slate-300 max-w-3xl mx-auto">
-              Anyone can send alerts. TempestIQ uses AI to turn storm intelligence into revenue—pinpointing when to act, where to deploy, and what actually drives results.
+              Anyone can send alerts. TempestIQ&apos;s AI interprets every one—historical context, damage implications, and plain-language guidance—so you know when it&apos;s routine or rare, and exactly what to do.
             </p>
           </div>
 
@@ -163,8 +179,8 @@ export function MarketingPageContent() {
                             <span className="font-semibold text-gray-900 text-sm">TempestIQ</span>
                             <span className="text-xs text-gray-500 flex-shrink-0">now</span>
                           </div>
-                          <p className="text-xs text-gray-600 mt-0.5 line-clamp-2">
-                            This hail event is 3× stronger than anything in the last 24 months. Quarter-size hail (1&quot;+) expected 6:10–6:40 PM. Secure vehicles and move to cover.
+                          <p className="text-xs text-gray-600 mt-0.5 line-clamp-3">
+                            Most significant hail in 3 years. Quarter-size (1&quot;+) will break windows, dent cars, and cause extensive roof damage. Expected 6:10–6:40 PM—secure vehicles now.
                           </p>
                         </div>
                       </div>
@@ -189,16 +205,16 @@ export function MarketingPageContent() {
             {/* Copy: end-user sell */}
             <div className="max-w-lg text-center lg:text-left">
               <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                Generic weather APIs dump raw warnings on you. TempestIQ tells you <strong className="text-white">whether this one is routine or rare</strong>—and exactly what to do.
+                Generic weather APIs dump raw warnings on you. TempestIQ&apos;s AI interprets every alert—<strong className="text-white">historical context, damage implications, and plain-language guidance</strong>.
               </p>
               <ul className="space-y-4 text-slate-300">
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-white/20 text-sky-200 flex items-center justify-center text-sm font-bold">1</span>
-                  <span><strong className="text-white">Priority, not noise.</strong> AI scores severity for your context so you see &ldquo;high priority&rdquo; only when it&apos;s actually unusual.</span>
+                  <span><strong className="text-white">Historical context.</strong> &ldquo;Most significant hail in 3 years&rdquo; or &ldquo;Worst storm in 24 months&rdquo;—so you know if it&apos;s routine or rare.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-white/20 text-sky-200 flex items-center justify-center text-sm font-bold">2</span>
-                  <span><strong className="text-white">Plain language.</strong> No codes or jargon—just &ldquo;Quarter-size hail, 6:10–6:40 PM. Secure vehicles and move to cover.&rdquo;</span>
+                  <span><strong className="text-white">Damage breakdown.</strong> &ldquo;Hail this size will break windows, dent cars, and cause extensive roof damage&rdquo;—actionable impact, not raw data.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-white/20 text-sky-200 flex items-center justify-center text-sm font-bold">3</span>
@@ -242,7 +258,7 @@ export function MarketingPageContent() {
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-3">AI Interprets</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Severity scoring, context matching, plain-language summarization, and predictive risk—tailored to your industry and assets.
+                Historical context (&ldquo;worst in 3 years&rdquo;), damage breakdowns (&ldquo;will dent cars and damage roofs&rdquo;), and plain-language guidance—tailored to your industry and assets.
               </p>
             </div>
 
@@ -300,7 +316,7 @@ export function MarketingPageContent() {
                 </svg>
               </div>
               <h3 className="text-base font-semibold text-gray-900 mb-2">Plain-Language Summaries</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">No jargon. You get &ldquo;60–70 mph winds 6:10–6:40 PM. Secure loose items now&rdquo; instead of raw warning codes. Clarity, not data.</p>
+              <p className="text-sm text-gray-600 leading-relaxed">No jargon. You get &ldquo;Most hail in 3 years. Quarter-size will break windows and damage roofs—secure vehicles by 6 PM&rdquo; instead of raw codes. Clarity, not data.</p>
             </div>
 
             <div className="p-6 rounded-xl border-2 border-cyan-100 bg-cyan-50/30 hover:border-cyan-200 hover:bg-cyan-50/50 transition-all hover:shadow-lg">
@@ -369,11 +385,11 @@ export function MarketingPageContent() {
               <ul className="space-y-3 mb-6 text-sm">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 mt-0.5">✓</span>
-                  <span className="text-gray-600">Up to 5 service areas</span>
+                  <span className="text-gray-600">1 service area (20 mi radius)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 mt-0.5">✓</span>
-                  <span className="text-gray-600">500 alerts/month</span>
+                  <span className="text-gray-600">Up to 500 alerts/month</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 mt-0.5">✓</span>
@@ -412,11 +428,11 @@ export function MarketingPageContent() {
               <ul className="space-y-3 mb-6 text-sm">
                 <li className="flex items-start gap-2">
                   <span className="text-amber-300 mt-0.5">✓</span>
-                  <span className="text-white/90">Up to 25 service areas</span>
+                  <span className="text-white/90">Up to 10 service areas (20 mi radius each)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-amber-300 mt-0.5">✓</span>
-                  <span className="text-white/90">2,500 alerts/month</span>
+                  <span className="text-white/90">Up to 2,500 alerts/month</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-amber-300 mt-0.5">✓</span>
@@ -454,11 +470,11 @@ export function MarketingPageContent() {
               <ul className="space-y-3 mb-6 text-sm">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 mt-0.5">✓</span>
-                  <span className="text-gray-600">Up to 100 service areas</span>
+                  <span className="text-gray-600">Up to 25 service areas (20 mi radius each)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 mt-0.5">✓</span>
-                  <span className="text-gray-600">10,000 alerts/month</span>
+                  <span className="text-gray-600">Up to 10,000 alerts/month</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 mt-0.5">✓</span>

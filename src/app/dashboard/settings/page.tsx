@@ -188,6 +188,28 @@ export default function SettingsPage() {
         </div>
       </section>
 
+      {/* Alert types & Plan */}
+      <section className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Alert types & plan</h2>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          Choose which severe weather categories to receive (Watches & warnings, Hail, Wind), sensitivity, and quiet hours.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/dashboard/settings/alerts"
+            className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium"
+          >
+            Manage alert settings
+          </Link>
+          <Link
+            href="/dashboard/settings/plan"
+            className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-slate-700"
+          >
+            View plan
+          </Link>
+        </div>
+      </section>
+
       {/* Push notifications */}
       <section className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Push alerts</h2>
@@ -287,7 +309,7 @@ export default function SettingsPage() {
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             placeholder="Name (optional)"
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-600 w-40"
+            className="rounded-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-400 w-40"
           />
           <button
             type="submit"
@@ -299,7 +321,7 @@ export default function SettingsPage() {
         </form>
 
         {teamMembers.length === 0 ? (
-          <p className="text-sm text-gray-500">No team members yet. Add emails above to send storm info to your team.</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">No team members yet. Add emails above to send storm info to your team.</p>
         ) : (
           <ul className="space-y-2">
             {teamMembers.map((m) => (
@@ -308,8 +330,8 @@ export default function SettingsPage() {
                 className="flex items-center justify-between py-2 px-3 rounded-lg bg-gray-50 dark:bg-slate-700/50 border border-gray-100 dark:border-slate-600"
               >
                 <div>
-                  <span className="text-sm font-medium text-gray-900">{m.email}</span>
-                  {m.name && <span className="text-sm text-gray-500 ml-2">({m.name})</span>}
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">{m.email}</span>
+                  {m.name && <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">({m.name})</span>}
                 </div>
                 <button
                   type="button"

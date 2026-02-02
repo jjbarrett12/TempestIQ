@@ -44,7 +44,7 @@ export default function ReportsLibraryPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <p className="text-sm text-indigo-500 font-medium">Proof library</p>
-          <h1 className="text-3xl font-bold text-gray-900">Verification reports</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Verification reports</h1>
           <p className="text-sm text-gray-600 mt-2">
             Download reports for homeowners and adjusters, or generate new proof for a storm.
           </p>
@@ -57,23 +57,23 @@ export default function ReportsLibraryPage() {
         </Link>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
         <input
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           placeholder="Search by address or storm ID"
-          className="w-full md:w-80 rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-700"
+          className="w-full md:w-80 rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400"
         />
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
         <div className="p-5 border-b border-slate-100">
-          <h2 className="text-lg font-semibold text-gray-900">Generated reports</h2>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Generated reports</h2>
         </div>
         {loading ? (
-          <div className="p-6 text-sm text-gray-500">Loading reports...</div>
+          <div className="p-6 text-sm text-gray-500 dark:text-gray-400">Loading reports...</div>
         ) : filteredReports.length === 0 ? (
-          <div className="p-10 text-center text-sm text-gray-500">
+          <div className="p-10 text-center text-sm text-gray-500 dark:text-gray-400">
             No reports yet. Generate a storm verification report to get started.
           </div>
         ) : (
@@ -81,7 +81,7 @@ export default function ReportsLibraryPage() {
             {filteredReports.map((report) => (
               <div key={report.id} className="p-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 <div>
-                  <p className="text-sm font-semibold text-gray-900">{report.address}</p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">{report.address}</p>
                   <p className="text-xs text-gray-500 mt-1">Storm ID: {report.stormEventId}</p>
                   <p className="text-xs text-gray-500 mt-1">
                     Generated {new Date(report.createdAt).toLocaleString()}

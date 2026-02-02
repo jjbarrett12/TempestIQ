@@ -13,16 +13,25 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   const { orgId, userId } = await requireOrgContext()
   const body = await request.json()
-  const { stormEventId, address, lat, lon } = body ?? {}
+  let { stormEventId, address, lat, lon } = body ?? {}
 
-  if (!stormEventId || !address || typeof lat !== 'number' || typeof lon !== 'number') {
-    return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 })
+  if (!stormEventId) {
+    return NextResponse.json({ error: 'Missing storm event.' }, { status: 400 })
   }
 
   await ensureStormEvents(orgId)
   const event = await getStormEvent(orgId, stormEventId)
   if (!event) {
     return NextResponse.json({ error: 'Storm event not found.' }, { status: 404 })
+  }
+
+  // Allow quick generate without address: use storm centroid
+  if (typeof lat !== 'number' || typeof lon !== 'number') {
+    lat = event.centroid.lat
+    lon = event.centroid.lng
+  }
+  if (!address || typeof address !== 'string') {
+    address = `Storm impact area (${event.type} event, ${new Date(event.startTime).toLocaleDateString()})`
   }
 
   const polygons = event.polygons.map((polygon) => polygon.geojson)

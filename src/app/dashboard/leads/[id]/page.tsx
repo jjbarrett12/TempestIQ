@@ -47,6 +47,7 @@ export default function LeadDetailPage() {
   const [noteContent, setNoteContent] = useState('')
   const [savingNote, setSavingNote] = useState(false)
   const [assigningCadence, setAssigningCadence] = useState<string | null>(null)
+  const [cadenceToAssign, setCadenceToAssign] = useState('')
   const showProposalsAndCadences = canProposalsAndCadences('business')
 
   useEffect(() => {
@@ -104,6 +105,7 @@ export default function LeadDetailPage() {
       }
     } finally {
       setAssigningCadence(null)
+      setCadenceToAssign('')
     }
   }
 
@@ -159,7 +161,7 @@ export default function LeadDetailPage() {
             <select
               value={lead.status}
               onChange={(e) => updateStatus(e.target.value)}
-              className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium"
+              className="rounded-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-700 px-3 py-2 text-sm font-medium bg-white text-gray-900 dark:text-white"
             >
               {Object.entries(STATUS_LABELS).map(([value, label]) => (
                 <option key={value} value={value}>{label}</option>
@@ -167,7 +169,7 @@ export default function LeadDetailPage() {
             </select>
           </div>
         </div>
-        <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-600">
+        <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-600 dark:text-gray-400">
           {lead.email && <span>{lead.email}</span>}
           {lead.phone && <span>{lead.phone}</span>}
           {lead.source && <span>Source: {lead.source}</span>}
@@ -176,15 +178,15 @@ export default function LeadDetailPage() {
 
       <div className="grid lg:grid-cols-2 gap-8">
         <div className="space-y-6">
-          <div className="bg-white rounded-xl shadow border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Notes</h2>
+          <div className="bg-white dark:bg-slate-800 rounded-xl shadow border border-gray-200 dark:border-slate-700 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Notes</h2>
             <div className="space-y-3 mb-4">
               <textarea
                 value={noteContent}
                 onChange={(e) => setNoteContent(e.target.value)}
                 placeholder="Add a note..."
                 rows={3}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white text-gray-900 dark:bg-slate-700 dark:text-white placeholder-gray-500 dark:placeholder-slate-400 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500"
               />
               <button
                 type="button"
@@ -195,9 +197,9 @@ export default function LeadDetailPage() {
                 {savingNote ? 'Saving...' : 'Add note'}
               </button>
             </div>
-            <ul className="divide-y divide-gray-100">
+            <ul className="divide-y divide-gray-100 dark:divide-slate-700">
               {lead.notes.length === 0 ? (
-                <li className="py-4 text-sm text-gray-500">No notes yet.</li>
+                <li className="py-4 text-sm text-gray-500 dark:text-gray-400">No notes yet.</li>
               ) : (
                 lead.notes.map((note) => (
                   <li key={note.id} className="py-4">
@@ -210,23 +212,23 @@ export default function LeadDetailPage() {
           </div>
 
           {showProposalsAndCadences && (
-            <div className="bg-white rounded-xl shadow border border-gray-200 p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Follow-up cadences</h2>
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Follow-up cadences</h2>
               {lead.cadenceAssignments.length > 0 && (
                 <ul className="space-y-2 mb-4">
                   {lead.cadenceAssignments.map((a) => (
-                    <li key={a.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                      <span className="font-medium text-gray-800">{a.cadence.name}</span>
-                      <div className="flex items-center gap-2">
+                    <li key={a.id} className="flex items-center justify-between py-3 px-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+                      <span className="font-medium text-gray-800 dark:text-gray-200">{a.cadence.name}</span>
+                      <div className="flex items-center gap-3">
                         {a.nextDueAt && (
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-slate-500 dark:text-slate-400">
                             Next: {new Date(a.nextDueAt).toLocaleDateString()}
                           </span>
                         )}
                         <button
                           type="button"
                           onClick={() => unassignCadence(a.cadenceId)}
-                          className="text-xs text-red-600 hover:underline"
+                          className="text-xs text-red-600 dark:text-red-400 hover:underline"
                         >
                           Remove
                         </button>
@@ -236,23 +238,30 @@ export default function LeadDetailPage() {
                 </ul>
               )}
               {availableCadences.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {availableCadences.map((c) => (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => assignCadence(c.id)}
-                      disabled={assigningCadence === c.id}
-                      className="px-3 py-2 border border-indigo-200 text-indigo-700 rounded-lg hover:bg-indigo-50 text-sm font-medium disabled:opacity-50"
-                    >
-                      {assigningCadence === c.id ? 'Adding...' : `+ ${c.name}`}
-                    </button>
-                  ))}
+                <div>
+                  <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">Assign cadence</label>
+                  <select
+                    value={cadenceToAssign}
+                    onChange={(e) => {
+                      const v = e.target.value
+                      setCadenceToAssign(v)
+                      if (v) assignCadence(v)
+                    }}
+                    disabled={assigningCadence !== null}
+                    className="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-2.5 text-gray-900 dark:text-white text-sm"
+                  >
+                    <option value="">— Select a cadence —</option>
+                    {availableCadences.map((c) => (
+                      <option key={c.id} value={c.id} disabled={assigningCadence === c.id}>
+                        {assigningCadence === c.id ? 'Adding…' : c.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               )}
               {cadences.length === 0 && (
-                <p className="text-sm text-gray-500">
-                  <Link href="/dashboard/cadences/new" className="text-indigo-600 hover:underline">Create a cadence</Link> to assign.
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                  <Link href="/dashboard/cadences/new" className="text-indigo-600 dark:text-indigo-400 hover:underline">Create a cadence</Link> to assign.
                 </p>
               )}
             </div>
@@ -261,9 +270,9 @@ export default function LeadDetailPage() {
 
         <div className="space-y-6">
           {showProposalsAndCadences && (
-            <div className="bg-white rounded-xl shadow border border-gray-200 p-6">
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow border border-gray-200 dark:border-slate-700 p-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">Proposals</h2>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Proposals</h2>
                 <Link
                   href={`/dashboard/proposals/new?leadId=${lead.id}`}
                   className="text-sm text-indigo-600 hover:underline font-medium"
@@ -272,15 +281,15 @@ export default function LeadDetailPage() {
                 </Link>
               </div>
               {lead.proposals.length === 0 ? (
-                <p className="text-sm text-gray-500">No proposals yet.</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">No proposals yet.</p>
               ) : (
                 <ul className="space-y-3">
                   {lead.proposals.map((p) => (
-                    <li key={p.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                      <Link href={`/dashboard/proposals/${p.id}`} className="font-medium text-indigo-600 hover:underline">
+                    <li key={p.id} className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-slate-700 last:border-0">
+                      <Link href={`/dashboard/proposals/${p.id}`} className="font-medium text-indigo-600 dark:text-indigo-400 hover:underline">
                         {p.title}
                       </Link>
-                      <span className="text-xs text-gray-500">{p.status}</span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{p.status}</span>
                     </li>
                   ))}
                 </ul>

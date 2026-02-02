@@ -133,7 +133,7 @@ export function EnablePush({ onStatusChange, compact }: EnablePushProps) {
 
   if (status === 'unsupported') {
     return (
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-gray-500 dark:text-gray-400">
         Push notifications are not supported in this browser.
       </p>
     )
@@ -146,7 +146,7 @@ export function EnablePush({ onStatusChange, compact }: EnablePushProps) {
           type="button"
           onClick={enable}
           disabled={status === 'requesting' || status === 'registering' || status === 'checking'}
-          className="text-sm font-medium text-indigo-600 hover:text-indigo-700 disabled:opacity-50"
+          className="text-sm font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 disabled:opacity-50"
         >
           {status === 'enabled' ? '✓ Alerts enabled' : status === 'blocked' ? 'Notifications blocked' : status === 'requesting' || status === 'registering' ? 'Setting up...' : 'Enable alerts'}
         </button>
@@ -154,7 +154,7 @@ export function EnablePush({ onStatusChange, compact }: EnablePushProps) {
           <button
             type="button"
             onClick={sendTest}
-            className="text-xs text-gray-500 hover:text-gray-700"
+            className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
           >
             Send test
           </button>
@@ -164,11 +164,11 @@ export function EnablePush({ onStatusChange, compact }: EnablePushProps) {
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+    <div className="rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700/50 p-4">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h3 className="font-medium text-gray-900">Push notifications</h3>
-          <p className="text-sm text-gray-600 mt-1">
+          <h3 className="font-medium text-gray-900 dark:text-white">Push notifications</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
             Get weather alerts on this device when storms affect your locations.
           </p>
           {error && <p className="text-sm text-red-600 mt-1">{error}</p>}

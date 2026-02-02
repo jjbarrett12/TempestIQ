@@ -76,9 +76,9 @@ export default function SignInPage() {
             <Image
               src="/TempestIQ logo transparent.png"
               alt="TempestIQ"
-              width={200}
-              height={48}
-              className="h-10 w-auto object-contain mx-auto"
+              width={320}
+              height={76}
+              className="h-16 w-auto object-contain mx-auto"
             />
           </Link>
         </div>

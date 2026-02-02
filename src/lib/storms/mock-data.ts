@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs'
 import path from 'path'
+import os from 'os'
 import { randomUUID } from 'crypto'
 
 export type StormType = 'hail' | 'wind'
@@ -31,13 +32,24 @@ export type StormEvent = {
   polygons: StormPolygon[]
   centroid: { lat: number; lng: number }
   createdAt: string
+  /** UX: 1-2 sentence explanation (optional) */
+  ai_explanation?: string
+  /** UX: provider chips */
+  providers_used?: string[]
+  /** UX: 0-1 confidence */
+  confidence?: number
+  /** UX: for grouping */
+  assetId?: string | null
+  /** UX: test alert flag */
+  isTestAlert?: boolean
 }
 
 type StormStore = {
   orgs: Record<string, StormEvent[]>
 }
 
-const STORE_PATH = path.join(process.cwd(), 'data', 'mock-storms.json')
+const PRIMARY_PATH = path.join(process.cwd(), 'data', 'mock-storms.json')
+const FALLBACK_PATH = path.join(os.tmpdir(), 'tempestiq-mock-storms.json')
 
 const DEFAULT_ORG_ID = 'demo-customer-1'
 
@@ -133,24 +145,49 @@ function generateStormEvent(orgId: string, index: number): StormEvent {
 }
 
 async function loadStore(): Promise<StormStore> {
-  try {
-    const raw = await fs.readFile(STORE_PATH, 'utf-8')
-    return JSON.parse(raw) as StormStore
-  } catch {
-    return { orgs: {} }
+  for (const p of [PRIMARY_PATH, FALLBACK_PATH]) {
+    try {
+      const raw = await fs.readFile(p, 'utf-8')
+      return JSON.parse(raw) as StormStore
+    } catch {
+      continue
+    }
   }
+  return { orgs: {} }
 }
 
 async function saveStore(store: StormStore) {
-  await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2))
+  const json = JSON.stringify(store, null, 2)
+  try {
+    await fs.mkdir(path.dirname(PRIMARY_PATH), { recursive: true })
+    await fs.writeFile(PRIMARY_PATH, json)
+  } catch {
+    try {
+      await fs.writeFile(FALLBACK_PATH, json)
+    } catch {
+      throw new Error('Unable to persist storms. Storage not writable.')
+    }
+  }
 }
 
 export async function ensureStormEvents(orgId: string, count = 8) {
   const store = await loadStore()
-  if (!store.orgs[orgId]) {
+  if (!store.orgs[orgId] || store.orgs[orgId].length === 0) {
     store.orgs[orgId] = Array.from({ length: count }).map((_, idx) => generateStormEvent(orgId, idx))
     await saveStore(store)
   }
+  return store.orgs[orgId]
+}
+
+/** Force-add sample storms for testing. Always appends. */
+export async function seedStormEvents(orgId: string, count = 8) {
+  const store = await loadStore()
+  const existing = store.orgs[orgId] ?? []
+  const newEvents = Array.from({ length: count }).map((_, idx) =>
+    generateStormEvent(orgId, existing.length + idx)
+  )
+  store.orgs[orgId] = [...newEvents, ...existing]
+  await saveStore(store)
   return store.orgs[orgId]
 }
 
@@ -162,6 +199,43 @@ export async function listStormEvents(orgId: string) {
 export async function getStormEvent(orgId: string, id: string) {
   const events = await listStormEvents(orgId)
   return events.find((event) => event.id === id) ?? null
+}
+
+/** Create a test alert event for the given org. No provider APIs called. */
+export async function createTestStormEvent(orgId: string): Promise<StormEvent> {
+  await ensureStormEvents(orgId)
+  const store = await loadStore()
+  const base = REGION_CENTERS[0]
+  const start = new Date()
+  const end = new Date(start.getTime() + 2 * 60 * 60 * 1000)
+  const polygons: StormPolygon[] = [{
+    id: randomUUID(),
+    geojson: { type: 'Polygon', coordinates: [buildPolygon({ lat: base.lat, lng: base.lng }, 6)] },
+    maxHailSizeIn: 1.5,
+    impactedNeighborhoods: ['North Loop', 'Westfield', 'Ridgeview'],
+  }]
+  const event: StormEvent = {
+    id: randomUUID(),
+    orgId,
+    provider: 'test',
+    type: 'hail',
+    startTime: start.toISOString(),
+    endTime: end.toISOString(),
+    severityScore: 78,
+    maxHailSizeIn: 1.5,
+    maxWindSpeedMph: null,
+    impactedAreaCount: 3,
+    polygons,
+    centroid: { lat: base.lat, lng: base.lng },
+    createdAt: start.toISOString(),
+    ai_explanation: 'Test alert: Hail threat (demo). No real storm detected.',
+    providers_used: [],
+    confidence: 1,
+    isTestAlert: true,
+  }
+  store.orgs[orgId] = [event, ...(store.orgs[orgId] ?? [])]
+  await saveStore(store)
+  return event
 }
 
 export async function seedDefaultStorms() {

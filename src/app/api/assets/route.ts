@@ -15,12 +15,16 @@ function canAccessCustomerId(
 }
 
 const createAssetSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().min(1).optional(),
   address: z.string().min(1),
   latitude: z.number().min(-90).max(90),
   longitude: z.number().min(-180).max(180),
-  radiusMiles: z.number().min(0.5).max(50).default(5),
+  radiusMiles: z.number().min(0.5).max(100).default(25),
   timezone: z.string().default('America/New_York'),
+  type: z.enum(['POINT_RADIUS', 'ZIP', 'COUNTY', 'CITY', 'POLYGON']).default('POINT_RADIUS'),
+  geometry: z.record(z.unknown()).nullable().optional(),
+  displayLabel: z.string().nullable().optional(),
+  source: z.enum(['manual', 'search', 'import']).default('search'),
 })
 
 export async function GET(request: NextRequest) {
@@ -64,14 +68,15 @@ export async function POST(request: NextRequest) {
     }
 
     const validated = createAssetSchema.parse(data)
+    const name = validated.name ?? validated.displayLabel ?? validated.address ?? `Area ${new Date().toISOString().slice(0, 10)}`
 
     const asset = await prisma.asset.create({
       data: {
         ...validated,
+        name,
         customerId,
-      },
-      include: {
-        subscriptions: true,
+        geometry: validated.geometry ?? undefined,
+        displayLabel: validated.displayLabel ?? undefined,
       },
     })
 

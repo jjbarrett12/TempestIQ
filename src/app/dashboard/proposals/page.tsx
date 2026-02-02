@@ -46,7 +46,7 @@ export default function ProposalsPage() {
   return (
     <>
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Proposals</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Proposals</h1>
         <Link
           href="/dashboard/proposals/new"
           className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium"

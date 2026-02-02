@@ -1,0 +1,40 @@
+{
+  "reports": [
+    {
+      "orgId": "cml3hflw70000x54p0oi0yg5r",
+      "stormEventId": "c0ede12b-f267-4b9f-8ab2-1b1df8146695",
+      "address": "Storm impact area (wind event, 2/1/2026)",
+      "lat": 41.2565,
+      "lon": -95.9345,
+      "impacted": false,
+      "distanceToPolygonM": 18979.930746858256,
+      "createdByUserId": "cml3hfm1h0002x54p15cdw8x0",
+      "id": "38b5aa86-2a1a-4825-bf14-d3e70fdb1ca1",
+      "createdAt": "2026-02-02T06:29:27.414Z"
+    },
+    {
+      "orgId": "cml3hflw70000x54p0oi0yg5r",
+      "stormEventId": "91bb57d7-74db-4aa4-a84f-5f2cb61f0538",
+      "address": "Storm impact area (hail event, 2/1/2026)",
+      "lat": 39.7392,
+      "lon": -104.9903,
+      "impacted": false,
+      "distanceToPolygonM": 6519.678836199076,
+      "createdByUserId": "cml3hfm1h0002x54p15cdw8x0",
+      "id": "37fc5421-017b-4e8e-bb3b-ea677a6ae3f3",
+      "createdAt": "2026-02-02T06:13:57.897Z"
+    },
+    {
+      "orgId": "cml3hflw70000x54p0oi0yg5r",
+      "stormEventId": "91bb57d7-74db-4aa4-a84f-5f2cb61f0538",
+      "address": "Storm impact area (hail event, 2/1/2026)",
+      "lat": 39.7392,
+      "lon": -104.9903,
+      "impacted": false,
+      "distanceToPolygonM": 6519.678836199076,
+      "createdByUserId": "cml3hfm1h0002x54p15cdw8x0",
+      "id": "a02fce86-1fc6-449b-af81-f7dcef8c1ade",
+      "createdAt": "2026-02-02T06:13:15.514Z"
+    }
+  ]
+}

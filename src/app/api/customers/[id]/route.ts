@@ -43,6 +43,7 @@ export async function GET(
           company: true,
           logoUrl: true,
           planTier: true,
+          alertProfile: true,
         },
       }),
       DB_TIMEOUT_MS
@@ -65,8 +66,18 @@ export async function GET(
   }
 }
 
+const alertProfileSchema = z.object({
+  quietHours: z.object({
+    enabled: z.boolean(),
+    start: z.number().min(0).max(23),
+    end: z.number().min(0).max(23),
+  }).optional(),
+  urgentOverride: z.boolean().optional(),
+}).optional()
+
 const updateCustomerSchema = z.object({
   company: z.string().optional(),
+  alertProfile: alertProfileSchema,
   logoUrl: z
     .string()
     .optional()
@@ -100,8 +111,9 @@ export async function PATCH(
       data: {
         ...(data.company !== undefined && { company: data.company }),
         ...(data.logoUrl !== undefined && { logoUrl: data.logoUrl }),
+        ...(data.alertProfile !== undefined && { alertProfile: data.alertProfile as object }),
       },
-      select: { id: true, name: true, email: true, company: true, logoUrl: true, planTier: true },
+      select: { id: true, name: true, email: true, company: true, logoUrl: true, planTier: true, alertProfile: true },
     })
 
     return NextResponse.json({

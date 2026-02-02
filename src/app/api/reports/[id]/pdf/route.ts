@@ -9,28 +9,36 @@ import { StormReportDocument } from '@/lib/reports/pdf'
 export const runtime = 'nodejs'
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-  const { orgId } = await requireOrgContext()
-  const report = await getReport(orgId, id)
+  try {
+    const { id } = await params
+    const { orgId } = await requireOrgContext()
+    const report = await getReport(orgId, id)
 
-  if (!report) {
-    return NextResponse.json({ error: 'Report not found' }, { status: 404 })
+    if (!report) {
+      return NextResponse.json({ error: 'Report not found' }, { status: 404 })
+    }
+
+    await ensureStormEvents(orgId)
+    const event = await getStormEvent(orgId, report.stormEventId)
+    if (!event) {
+      return NextResponse.json({ error: 'Storm event not found' }, { status: 404 })
+    }
+
+    const pdfBuffer = await renderToBuffer(
+      React.createElement(StormReportDocument, { report, event }) as React.ReactElement
+    )
+
+    return new NextResponse(new Uint8Array(pdfBuffer), {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `inline; filename="storm-report-${report.id}.pdf"`,
+      },
+    })
+  } catch (e) {
+    console.error('[PDF route]', e)
+    return NextResponse.json(
+      { error: (e as Error).message || 'Failed to generate PDF' },
+      { status: 500 }
+    )
   }
-
-  await ensureStormEvents(orgId)
-  const event = await getStormEvent(orgId, report.stormEventId)
-  if (!event) {
-    return NextResponse.json({ error: 'Storm event not found' }, { status: 404 })
-  }
-
-  const pdfBuffer = await renderToBuffer(
-    React.createElement(StormReportDocument, { report, event }) as React.ReactElement
-  )
-
-  return new NextResponse(new Uint8Array(pdfBuffer), {
-    headers: {
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': `inline; filename="storm-report-${report.id}.pdf"`,
-    },
-  })
 }

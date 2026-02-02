@@ -26,8 +26,8 @@ if (existsSync(envPath)) {
 import { prisma } from '../src/lib/prisma'
 import bcrypt from 'bcryptjs'
 
-const ADMIN_EMAIL = 'jjbarrett12@gmail.com'
-const ADMIN_PASSWORD = 'Jb121212'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'jjbarrett12@gmail.com'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Jb121212'
 
 async function main() {
   console.log('Creating admin user...\n')

@@ -66,15 +66,15 @@ export default function NewLeadPage() {
           )}
           <div>
             <label className="block text-sm font-medium text-gray-800 mb-1">Name *</label>
-            <input name="name" type="text" required className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500" placeholder="John Smith" />
+            <input name="name" type="text" required className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-indigo-500" placeholder="John Smith" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-800 mb-1">Company</label>
-            <input name="company" type="text" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500" placeholder="Acme Corp" />
+            <input name="company" type="text" className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-indigo-500" placeholder="Acme Corp" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-800 mb-1">Email</label>
-            <input name="email" type="email" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500" placeholder="john@acme.com" />
+            <input name="email" type="email" className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-indigo-500" placeholder="john@acme.com" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-800 mb-1">Phone</label>
@@ -82,7 +82,7 @@ export default function NewLeadPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-800 mb-1">Source</label>
-            <input name="source" type="text" className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-indigo-500" placeholder="Website, referral, event..." />
+            <input name="source" type="text" className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400 focus:ring-2 focus:ring-indigo-500" placeholder="Website, referral, event..." />
           </div>
           <div className="flex gap-3 pt-2">
             <button

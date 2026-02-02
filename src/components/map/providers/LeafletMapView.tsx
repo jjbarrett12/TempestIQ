@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo, useRef, useEffect, useState } from 'react'
-import dynamic from 'next/dynamic'
 import {
   MapContainer,
   TileLayer,
@@ -15,8 +14,6 @@ import L from 'leaflet'
 import type { MapViewProps, MapMarker, MapMarkerIconType } from '@/lib/map/types'
 
 import 'leaflet/dist/leaflet.css'
-import 'react-leaflet-cluster/dist/assets/MarkerCluster.css'
-import 'react-leaflet-cluster/dist/assets/MarkerCluster.Default.css'
 
 const { BaseLayer } = LayersControl
 
@@ -49,6 +46,31 @@ function getIconForMarker(m: MapMarker): L.DivIcon | undefined {
     iconSize: [28, 28],
     iconAnchor: [14, 14],
   })
+}
+
+// Call invalidateSize after map mounts so tiles render correctly (fixes gray/blank maps)
+function MapResizeHandler() {
+  const map = useMap()
+  useEffect(() => {
+    const t = setTimeout(() => {
+      map.invalidateSize()
+    }, 100)
+    return () => clearTimeout(t)
+  }, [map])
+  return null
+}
+
+// Fit map view to bounds when provided
+function FitBounds({ bounds }: { bounds: { north: number; south: number; east: number; west: number } }) {
+  const map = useMap()
+  useEffect(() => {
+    const b = L.latLngBounds(
+      [bounds.south, bounds.west],
+      [bounds.north, bounds.east]
+    )
+    map.fitBounds(b, { padding: [24, 24], maxZoom: 14 })
+  }, [map, bounds.north, bounds.south, bounds.east, bounds.west])
+  return null
 }
 
 // Child: add print + fullscreen controls to map instance (plugins extend L when loaded)
@@ -105,17 +127,54 @@ function MapControls({
   return null
 }
 
-// Lazy-load cluster so it only loads on client (uses window)
-const MarkerClusterGroup = dynamic(
-  () => import('react-leaflet-cluster').then((m) => ({ default: m.default })),
-  { ssr: false }
-)
+/** Detect dark mode from DOM (avoids useTheme which can throw outside ThemeProvider) */
+function useIsDark(): boolean {
+  const [isDark, setIsDark] = useState(false)
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    const check = () => document.documentElement.classList.contains('dark')
+    setIsDark(check())
+    const observer = new MutationObserver(() => setIsDark(check()))
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    return () => observer.disconnect()
+  }, [])
+  return isDark
+}
 
-// Unique key per mount so Leaflet never sees "container already initialized" (React Strict Mode double-mount)
-let mapContainerId = 0
-function useMapContainerKey() {
-  const [key] = useState(() => ++mapContainerId)
-  return key
+/** Incrementing counter so each "show" gets a new key (fixes Strict Mode double-mount) */
+let mapInstanceCounter = 0
+
+/**
+ * Defer map render until after mount to avoid "Map container is already initialized"
+ * with React 18 Strict Mode (double-mount). Each time we show the map we use a NEW
+ * key so React creates fresh DOM—Leaflet never sees a reused container.
+ */
+function useDeferredMapMount() {
+  const [state, setState] = useState<{ mounted: boolean; mapKey: string }>({
+    mounted: false,
+    mapKey: `map-${++mapInstanceCounter}`,
+  })
+  useEffect(() => {
+    let cancelled = false
+    let timeoutId: ReturnType<typeof setTimeout> | undefined
+    const rafId = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (cancelled) return
+        timeoutId = setTimeout(() => {
+          if (!cancelled) {
+            setState({ mounted: true, mapKey: `map-${++mapInstanceCounter}` })
+          }
+        }, 300)
+      })
+    })
+    return () => {
+      cancelled = true
+      cancelAnimationFrame(rafId)
+      if (timeoutId != null) clearTimeout(timeoutId)
+      setState((s) => ({ ...s, mounted: false }))
+    }
+  }, [])
+  return state
 }
 
 /**
@@ -131,13 +190,18 @@ export function LeafletMapView({
   className = '',
   height = '300px',
   interactive = true,
-  clusterMarkers = markers.length > 5,
+  clusterMarkers = false,
   showPrintControl = false,
   showLayerControl = interactive,
   showFullscreenControl = false,
 }: MapViewProps) {
-  const containerKey = useMapContainerKey()
+  const { mounted, mapKey } = useDeferredMapMount()
+  const isDark = useIsDark()
   const position: [number, number] = useMemo(() => [center.lat, center.lng], [center.lat, center.lng])
+
+  const streetTiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  const darkTiles = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
+  const defaultTileUrl = isDark ? darkTiles : streetTiles
 
   const markerElements = markers.map((m) => {
     const icon = getIconForMarker(m)
@@ -148,13 +212,28 @@ export function LeafletMapView({
     )
   })
 
+  if (!mounted) {
+    return (
+      <div
+        className={className}
+        style={{ height, minHeight: typeof height === 'string' && height.endsWith('%') ? 200 : undefined }}
+        aria-hidden
+      />
+    )
+  }
+
+  const heightStyle = typeof height === 'string' && height.endsWith('%')
+    ? { height, width: '100%' as const, minHeight: 200 }
+    : { height: typeof height === 'string' ? height : `${height}px`, width: '100%' as const }
+
   return (
-    <div key={containerKey} className={className} style={{ height }}>
+    <div className={`${className} relative overflow-hidden`} style={{ ...heightStyle, minHeight: 200 }}>
       <MapContainer
+        key={mapKey}
         center={position}
         zoom={zoom}
         className="h-full w-full rounded-lg z-0"
-        style={{ height }}
+        style={heightStyle}
         zoomControl={interactive}
         dragging={interactive}
         scrollWheelZoom={interactive}
@@ -162,10 +241,16 @@ export function LeafletMapView({
       >
         {showLayerControl ? (
           <LayersControl position="topright">
-            <BaseLayer checked name="Street">
+            <BaseLayer checked={!isDark} name="Street">
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                url={streetTiles}
+              />
+            </BaseLayer>
+            <BaseLayer checked={isDark} name="Dark">
+              <TileLayer
+                attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+                url={darkTiles}
               />
             </BaseLayer>
             <BaseLayer name="Satellite">
@@ -177,21 +262,19 @@ export function LeafletMapView({
           </LayersControl>
         ) : (
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution={isDark ? '&copy; CARTO' : '&copy; OpenStreetMap'}
+            url={defaultTileUrl}
           />
         )}
-        {clusterMarkers && markers.length > 1 ? (
-          <MarkerClusterGroup>{markerElements}</MarkerClusterGroup>
-        ) : (
-          <>{markerElements}</>
-        )}
+        {bounds && <FitBounds bounds={bounds} />}
+        {markerElements}
         {polygons.map((polygon, i) =>
           polygon.map((ring, j) => {
             const latLngs: [number, number][] = ring.map((coord) => [coord[1], coord[0]])
             return <Polygon key={`${i}-${j}`} positions={latLngs} />
           })
         )}
+        <MapResizeHandler />
         <MapControls showPrint={showPrintControl} showFullscreen={showFullscreenControl} />
       </MapContainer>
     </div>

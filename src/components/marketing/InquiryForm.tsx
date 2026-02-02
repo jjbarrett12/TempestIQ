@@ -80,18 +80,18 @@ export function InquiryForm({
   }
 
   return (
-    <section className="bg-gray-50 rounded-2xl border-2 border-indigo-100 p-8 md:p-10">
+    <section className="bg-white/80 backdrop-blur-sm rounded-2xl border-2 border-indigo-200/80 shadow-xl shadow-indigo-500/5 p-8 md:p-10">
       <h2 className="text-2xl font-bold text-gray-900 mb-2">{title}</h2>
       <p className="text-gray-600 mb-6">{subtitle}</p>
 
       {success && (
-        <div className="mb-6 p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800">
+        <div className="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800">
           Thank you for your message. We&apos;ll get back to you soon!
         </div>
       )}
 
       {error && (
-        <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 text-red-700">
+        <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700">
           {error}
         </div>
       )}
@@ -107,7 +107,7 @@ export function InquiryForm({
               name="name"
               type="text"
               required
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 rounded-xl border-2 border-indigo-100 bg-white text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-400 transition-colors"
               placeholder="Your name"
             />
           </div>
@@ -120,7 +120,7 @@ export function InquiryForm({
               name="email"
               type="email"
               required
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 rounded-xl border-2 border-indigo-100 bg-white text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-400 transition-colors"
               placeholder="you@company.com"
             />
           </div>
@@ -135,7 +135,7 @@ export function InquiryForm({
               id="inquiry-company"
               name="company"
               type="text"
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 rounded-xl border-2 border-indigo-100 bg-white text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-400 transition-colors"
               placeholder="Your company"
             />
           </div>
@@ -146,7 +146,7 @@ export function InquiryForm({
             <select
               id="inquiry-industry"
               name="industry"
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 rounded-xl border-2 border-indigo-100 bg-white text-gray-900 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-400 transition-colors"
             >
               {INDUSTRIES.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -167,20 +167,20 @@ export function InquiryForm({
             required
             rows={4}
             minLength={10}
-            className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+            className="w-full px-4 py-2.5 rounded-xl border-2 border-indigo-100 bg-white text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-400 transition-colors resize-none"
             placeholder="Tell us about your inquiry..."
           />
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex gap-3 pt-2">
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-500 hover:to-purple-500 font-semibold shadow-lg shadow-indigo-500/25 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? 'Sending...' : submitLabel}
           </button>
-          <Link href="/" className="px-6 py-2.5 text-gray-600 hover:text-gray-900 font-medium">
+          <Link href="/" className="px-6 py-3 text-indigo-600 hover:text-indigo-700 font-medium hover:bg-indigo-50 rounded-xl transition-colors">
             Back to home
           </Link>
         </div>

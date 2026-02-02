@@ -20,6 +20,7 @@ model Customer {
   logoUrl     String?  // Company logo URL (dashboard header, reports)
   // Billing: plan tier and Stripe IDs for self-serve subscriptions
   planTier    String?  // STARTER | PROFESSIONAL | BUSINESS | ENTERPRISE
+  alertProfile Json?   // { quietHours: { enabled, start, end }, urgentOverride }
   stripeCustomerId    String?
   stripeSubscriptionId String?
   createdAt   DateTime @default(now())
@@ -32,10 +33,26 @@ model Customer {
   usageTokens UsageToken[]
   leads       Lead[]
   proposals   Proposal[]
+  proposalTemplates ProposalTemplate[]
   followUpCadences FollowUpCadence[]
   teamMembers TeamMember[]
+  alertPreferences CustomerAlertPreference[]
 
   @@index([email])
+}
+
+model CustomerAlertPreference {
+  id          String   @id @default(cuid())
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  category    String   // nws | hail | wind
+  enabled     Boolean  @default(true)
+  sensitivity String   @default("STANDARD") // CRITICAL_ONLY | STANDARD | AGGRESSIVE
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([customerId, category])
+  @@index([customerId])
 }
 
 model TeamMember {
@@ -69,20 +86,39 @@ enum UserRole {
   ADMIN
 }
 
+enum AreaType {
+  POINT_RADIUS
+  ZIP
+  COUNTY
+  CITY
+  POLYGON
+}
+
+enum AreaSource {
+  manual
+  search
+  import
+}
+
 model Asset {
-  id          String   @id @default(cuid())
-  customerId  String
-  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  name        String
-  address     String
-  latitude    Float
-  longitude   Float
-  radiusMiles Float   @default(5.0) // Alert radius in miles
-  timezone    String  @default("America/New_York")
-  active      Boolean @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  id           String     @id @default(cuid())
+  customerId   String
+  customer     Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  name         String
+  address      String
+  latitude     Float
+  longitude    Float
+  radiusMiles  Float      @default(25.0) // Alert radius in miles
+  timezone     String     @default("America/New_York")
+  active       Boolean    @default(true)
+  // Area extensions
+  type         AreaType   @default(POINT_RADIUS)
+  geometry     Json?      // GeoJSON for ZIP/COUNTY/POLYGON
+  displayLabel String?    // Human-readable: "Denver, CO", "ZIP 80202"
+  source       AreaSource @default(search)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
   subscriptions Subscription[]
   events        Event[]
   leads         Lead[]

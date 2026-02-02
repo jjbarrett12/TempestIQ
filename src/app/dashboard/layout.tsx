@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
 import { hasSalesFeatures, canProposalsAndCadences } from '@/lib/plans'
 import { DashboardCustomerProvider } from '@/lib/dashboard-customer-context'
+import { PushRegisterOnLogin } from '@/components/PushRegisterOnLogin'
 
 const DEMO_CUSTOMER_ID = 'demo-customer-1'
 
@@ -110,7 +111,7 @@ export default function DashboardLayout({
       {navLink('/dashboard', 'Overview')}
       {navLink('/dashboard/events', 'Storms')}
       {navLink('/dashboard/reports', 'Reports')}
-      {navLink('/dashboard/assets', 'Locations')}
+      {navLink('/dashboard/areas', 'Areas')}
       {navLink('/dashboard/scripts', 'Scripts')}
       {showSales && (
         <>
@@ -129,7 +130,7 @@ export default function DashboardLayout({
         <button
           type="button"
           onClick={() => signOut({ callbackUrl: '/' })}
-          className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+          className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-slate-700 dark:hover:text-gray-200"
         >
           Sign out
         </button>
@@ -139,6 +140,7 @@ export default function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-indigo-50/30 to-gray-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-900">
+      <PushRegisterOnLogin />
       <header className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 sticky top-0 z-10">
         <div className="container mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
@@ -166,7 +168,7 @@ export default function DashboardLayout({
             <button
               type="button"
               onClick={() => setMobileNavOpen((o) => !o)}
-              className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100"
+              className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-slate-700"
               aria-label={mobileNavOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileNavOpen}
             >

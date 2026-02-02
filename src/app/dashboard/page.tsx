@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { AssetList } from '@/components/dashboard/AssetList'
+import { AreaList } from '@/components/dashboard/AreaList'
 import { DashboardPulse } from '@/components/dashboard/DashboardPulse'
 import { DashboardMap } from '@/components/dashboard/DashboardMap'
 import { useDashboardCustomer } from '@/lib/dashboard-customer-context'
@@ -29,6 +29,20 @@ export default function DashboardPage() {
   const customerId = useDashboardCustomer()
   const [storms, setStorms] = useState<StormEvent[]>([])
   const [loadingStorms, setLoadingStorms] = useState(true)
+  const [seeding, setSeeding] = useState(false)
+
+  const loadSampleStorms = async () => {
+    setSeeding(true)
+    try {
+      const res = await fetch('/api/storm-events/seed', { method: 'POST' })
+      if (res.ok) {
+        const data = await fetch('/api/storm-events?limit=6').then((r) => r.json())
+        setStorms(data.events ?? [])
+      }
+    } finally {
+      setSeeding(false)
+    }
+  }
 
   useEffect(() => {
     fetch('/api/storm-events?limit=6')
@@ -53,10 +67,10 @@ export default function DashboardPage() {
         </div>
         <div className="flex flex-wrap gap-3">
           <Link
-            href="/dashboard/assets/new"
+            href="/dashboard/areas/new"
             className="px-4 py-2 bg-white text-indigo-600 rounded-lg hover:bg-indigo-50 text-sm font-medium shadow"
           >
-            Add location
+            Add area
           </Link>
           <Link
             href="/dashboard/scripts"
@@ -115,7 +129,17 @@ export default function DashboardPage() {
           {loadingStorms ? (
             <div className="p-6 text-sm text-gray-500 dark:text-gray-400">Loading storms…</div>
           ) : storms.length === 0 ? (
-            <div className="p-6 text-sm text-gray-500 dark:text-gray-400">No storms yet. Seed mock data to populate this list.</div>
+            <div className="p-6">
+              <p className="text-sm text-gray-500 dark:text-gray-400">No storms yet.</p>
+              <button
+                type="button"
+                onClick={loadSampleStorms}
+                disabled={seeding}
+                className="mt-3 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+              >
+                {seeding ? 'Loading…' : 'Load sample storms'}
+              </button>
+            </div>
           ) : (
             <div className="divide-y divide-gray-100 dark:divide-slate-700">
               {storms.map((storm) => (
@@ -159,7 +183,7 @@ export default function DashboardPage() {
               Open reports library
             </Link>
             <Link
-              href="/dashboard/events"
+              href="/dashboard/reports/new"
               className="block px-4 py-2 rounded-lg border-2 border-emerald-200 dark:border-emerald-700 text-emerald-800 dark:text-emerald-300 text-sm font-medium hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-center"
             >
               Generate a report
@@ -169,7 +193,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="mt-8">
-        <AssetList customerId={customerId} />
+        <AreaList customerId={customerId} />
       </div>
     </>
   )

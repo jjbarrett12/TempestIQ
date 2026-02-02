@@ -20,7 +20,7 @@ const ALERTS: AlertItem[] = [
   {
     id: 'hail',
     title: 'Hail alert',
-    message: 'Largest hail of the year in your registered area. 2"+ expected in the next 45 min—secure assets now.',
+    message: 'Most significant hail in 3 years for your area. Quarter-size (1"+): will break windows, dent cars, and cause extensive roof damage. Expected 6:10–6:40 PM—secure vehicles and move to cover.',
     icon: 'hail',
     accent: 'from-sky-500 to-blue-600',
     border: 'border-sky-300/50',
@@ -28,7 +28,7 @@ const ALERTS: AlertItem[] = [
   {
     id: 'lightning',
     title: 'Extreme lightning',
-    message: 'Extreme lightning activity in your area. 80+ strikes/min—seek shelter and pause outdoor work.',
+    message: 'Highest lightning density in 18 months. 80+ strikes/min—direct strike risk elevated. Seek shelter and pause outdoor work immediately.',
     icon: 'lightning',
     accent: 'from-amber-500 to-orange-600',
     border: 'border-amber-300/50',
@@ -36,7 +36,7 @@ const ALERTS: AlertItem[] = [
   {
     id: 'wind',
     title: 'High wind warning',
-    message: 'Wind gusts 55–70 mph in your area over the next 2 hours. Secure loose materials and delay elevated work.',
+    message: 'Strongest gusts in 2 years: 55–70 mph. Expect downed limbs, flying debris, and roof/siding damage. Secure loose materials and delay elevated work.',
     icon: 'wind',
     accent: 'from-slate-500 to-slate-700',
     border: 'border-slate-300/50',
@@ -44,7 +44,7 @@ const ALERTS: AlertItem[] = [
   {
     id: 'tornado',
     title: 'Tornado watch',
-    message: 'Tornado watch in effect until 9 PM. Conditions favorable for severe storms—review shelter plans.',
+    message: 'First tornado watch in 14 months for this area. Conditions highly favorable—review shelter plans and be ready to act.',
     icon: 'tornado',
     accent: 'from-red-500 to-rose-600',
     border: 'border-red-300/50',
@@ -52,7 +52,7 @@ const ALERTS: AlertItem[] = [
   {
     id: 'severe',
     title: 'Severe thunderstorm',
-    message: 'Severe storm cell moving into your area. Quarter-size hail and 60 mph winds possible—take cover.',
+    message: 'Worst storm in 24 months. Quarter-size hail (breaks glass, dents metal) and 60 mph winds. Take cover by 6:00 PM.',
     icon: 'storm',
     accent: 'from-indigo-600 to-indigo-500',
     border: 'border-indigo-400/50',
@@ -120,7 +120,6 @@ function AlertIcon({ icon, className }: { icon: string; className?: string }) {
 }
 
 type Side = 'left' | 'right'
-type VerticalPos = 'middle' | 'bottom'
 
 function AlertCard({
   alert: a,
@@ -159,7 +158,7 @@ function AlertCard({
             <span className="text-xs text-gray-500 flex-shrink-0">now</span>
           </div>
           <p className="font-medium text-gray-900 text-sm mt-0.5">{a.title}</p>
-          <p className="text-xs text-gray-600 mt-0.5 leading-relaxed line-clamp-2">{a.message}</p>
+          <p className="text-xs text-gray-600 mt-0.5 leading-relaxed line-clamp-4">{a.message}</p>
         </div>
       </div>
     </div>
@@ -228,15 +227,10 @@ export function HeroAlerts() {
 
   const alert = ALERTS[currentIndex]
   const showPhase = phase === 'gap' ? 'exiting' : phase
-  // Cycle: middle-right, bottom-left, middle-left, bottom-right (no top)
-  const posIndex = currentIndex % 4
-  const side: Side = posIndex === 0 || posIndex === 3 ? 'right' : 'left'
-  const vertical: VerticalPos = posIndex <= 1 ? 'middle' : 'bottom'
+  // Bottom only: alternate left and right
+  const side: Side = currentIndex % 2 === 0 ? 'left' : 'right'
 
-  const verticalClasses =
-    vertical === 'middle'
-      ? 'top-1/2 -translate-y-1/2'
-      : 'bottom-6 md:bottom-8'
+  const verticalClasses = 'bottom-6 md:bottom-8'
   const horizontalClasses =
     side === 'right'
       ? 'left-4 right-4 md:left-auto md:right-6 md:max-w-[280px]'

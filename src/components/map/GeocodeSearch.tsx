@@ -66,7 +66,7 @@ export function GeocodeSearch({ onSelect, placeholder = 'Search address…', cla
         onChange={handleChange}
         onFocus={() => query && search(query)}
         placeholder={placeholder}
-        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-600 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+        className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
       />
       {loading && (
         <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
@@ -74,13 +74,13 @@ export function GeocodeSearch({ onSelect, placeholder = 'Search address…', cla
         </div>
       )}
       {results.length > 0 && (
-        <ul className="absolute z-50 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg py-1 max-h-48 overflow-auto">
+        <ul className="absolute z-50 mt-1 w-full rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-lg py-1 max-h-48 overflow-auto">
           {results.map((r, i) => (
             <li key={i}>
               <button
                 type="button"
                 onClick={() => handleSelect(r)}
-                className="w-full text-left px-3 py-2 text-sm text-gray-800 hover:bg-indigo-50"
+                className="w-full text-left px-3 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-slate-700"
               >
                 {r.displayName}
               </button>
