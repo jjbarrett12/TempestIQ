@@ -53,23 +53,19 @@ export function groupEvents<T extends EventForGrouping>(
   const cutoff = now - windowHours * 60 * 60 * 1000
   const recent = events.filter((e) => new Date(e.startTime).getTime() > cutoff)
 
-  const key = (e: EventForGrouping) => {
+  const key = (e: T) => {
     const loc = e.assetId ?? (e.centroid ? `${Math.round(e.centroid.lat * 10)}_${Math.round(e.centroid.lng * 10)}` : '')
     return `${e.type}|${loc}`
   }
 
-  const byKey = new Map<string, EventForGrouping[]>()
+  const byKey = new Map<string, T[]>()
   for (const e of recent) {
     const k = key(e)
     if (!byKey.has(k)) byKey.set(k, [])
     byKey.get(k)!.push(e)
   }
 
-  const result: Array<{
-    primary: EventForGrouping
-    updates: number
-    severityIncreased: boolean
-  }> = []
+  const result: Array<{ primary: T; updates: number; severityIncreased: boolean }> = []
 
   for (const group of byKey.values()) {
     const sorted = [...group].sort(
