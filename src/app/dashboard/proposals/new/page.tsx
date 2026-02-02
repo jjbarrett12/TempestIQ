@@ -177,3 +177,11 @@ function NewProposalForm() {
     </>
   )
 }
+
+export default function NewProposalPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-gray-500">Loading…</div>}>
+      <NewProposalForm />
+    </Suspense>
+  )
+}
